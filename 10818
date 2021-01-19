@@ -1,0 +1,20 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include<limits.h>
+
+int main() {
+	int tmp,N;
+	int min = INT_MAX;
+	int max = INT_MIN;
+	
+	scanf("%d", &N);
+
+	for (int i = 0; i < N; i++) {
+		scanf("%d", &tmp);
+		if (tmp > max)
+			max = tmp;
+		if (tmp < min)
+			min = tmp;
+	}
+	printf("%d %d", min, max);
+}
