@@ -1,0 +1,18 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include<limits.h>
+
+int main() {
+	int cnt = 0, tmp, cnt_ans;
+	int max = INT_MIN;
+
+	for (int i = 0; i < 9; i++) {
+		scanf("%d", &tmp);
+		cnt += 1;
+		if (tmp > max) {
+			max = tmp;
+			cnt_ans = cnt;
+		}
+	}
+	printf("%d\n%d", max, cnt_ans);
+}
