@@ -1,0 +1,19 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+
+int main() {
+	int N,tmp1,tmp2=-1; //tmp1 더하기값 tmp2 새로운수
+	int cnt = 0;
+
+	scanf("%d", &N);
+	tmp2 = N;
+	while (1) {
+		tmp1 = tmp2;
+		tmp1 = tmp1 / 10 + tmp1 % 10;
+		tmp2 = (tmp2 % 10) * 10 + tmp1 % 10;
+		cnt += 1;
+		if (N == tmp2) break;
+	}
+	
+	printf("%d", cnt);
+}
