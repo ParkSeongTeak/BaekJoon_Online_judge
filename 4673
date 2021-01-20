@@ -1,0 +1,27 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+
+bool NonSelfNum[10001] ;
+int num = 0;
+
+void NonSelf(int i) {
+	num = i;
+	while (i != 0) {
+		num += i % 10;
+		i = i / 10;
+	}
+	if (num <= 10000) {
+		NonSelfNum[num] = true;
+		NonSelf(num);
+	}
+}
+
+int main() {
+	
+	for (int i = 1; i <= 10000; i++) {
+		if (NonSelfNum[i] == false) {
+			printf("%d\n", i);
+			NonSelf(i);
+		}
+	}
+}
