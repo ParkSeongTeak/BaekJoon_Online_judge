@@ -1,0 +1,28 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+
+int main() {
+	
+	int C, N,sum=0,num=0;
+	int Test[1000] = {0,};
+
+	scanf("%d",&C);
+	for (int i = 0; i < C; i++) {
+		scanf("%d", &N);
+		for (int j = 0; j < N; j++) {
+			scanf("%d", &Test[j]);
+			sum += Test[j];
+		}
+		for (int j = 0; j < N; j++) {
+			if (Test[j] > (double)(sum) / N) {
+				num += 1;
+			}
+		}
+		printf("%.3f%%\n", (double)num*100 / N);
+		sum = 0;
+		num = 0;
+		
+	}
+
+	
+}
