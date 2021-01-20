@@ -1,0 +1,25 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+
+int main() {
+	int num,tmp1,tmp2,cnt=0;
+	
+	scanf("%d", &num);
+	if (num < 100) {
+		printf("%d", num);
+	}
+	else {
+		cnt = 99;
+		for (int i = 100; i <= num; i++) {
+			tmp1 = i % 10;			//1의자리
+			tmp2 = (i / 10) % 10;	//10의자리
+
+
+			if (tmp1-tmp2 == tmp2 - (i/100))
+				cnt += 1;
+		}
+		printf("%d", cnt);
+	}
+
+
+}
