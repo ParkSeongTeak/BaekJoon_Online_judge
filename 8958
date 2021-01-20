@@ -1,0 +1,32 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+
+int main() {
+	int N, point=0, cnt=0, sum=0;
+	char OX[80];
+	char tmp = 0;
+	scanf("%d",&N);
+	for (int i = 0; i < N; i++) {
+		scanf("%s", OX);
+		tmp = OX[cnt];
+		while (tmp == 'O' || tmp == 'X') {
+			if (tmp == 'O') {
+				point += 1;
+				sum += point;
+				cnt += 1;
+			}
+			else {
+				point = 0;
+				cnt += 1;
+				
+			}
+			tmp = OX[cnt];
+		}
+		printf("%d\n", sum);
+		cnt = 0;
+		point = 0;
+		sum = 0;
+	}
+
+
+}
