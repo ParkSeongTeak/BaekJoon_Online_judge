@@ -1,0 +1,58 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<string>
+using namespace std;
+
+bool groupWord(int* alpa) {
+	for (int i = 0; i < 26; i++) {
+		if (alpa[i] == 2)
+			return false;
+	}
+	return true;
+}
+
+int main(){
+	
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	
+	string str;
+	char tmp;
+	int apla[26];
+	int N;
+	int cnt = 0;
+	cin >> N;
+	for (int i = 0; i < N; i++) {
+		for (int i = 0; i < 26; i++) {
+			apla[i] = 0;
+		}
+
+		
+		cin >> str;
+		
+		tmp = str[0];
+		apla[str[0] - 'a'] = 1;
+
+		for (int i = 1; i < str.size(); i++) {
+			
+			if (str[i] != tmp) {
+
+				if (apla[str[i] - 'a'] == 0) {
+					apla[str[i] - 'a'] = 1;
+					tmp = str[i];
+				}
+
+				else
+					apla[str[i] - 'a'] = 2;
+			
+			}
+			
+		}
+		if (groupWord(apla)) {
+			cnt++;
+		}
+
+	}
+	cout << cnt;
+}
