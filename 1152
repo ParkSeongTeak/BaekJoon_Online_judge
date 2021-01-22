@@ -1,0 +1,23 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<string>
+using namespace std;
+
+int main(){
+	int cnt = 0;
+	string str;
+	getline(cin, str);
+	
+	if (str[0] != ' ' ) {
+		cnt++;
+	}
+
+	for (int i = 1; i < str.size(); i++) {
+		
+		if (str[i - 1] == ' ' && str[i] != ' ') {
+			cnt++;
+		}
+	}
+
+	cout << cnt;
+}
