@@ -1,0 +1,53 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<string>
+using namespace std;
+
+int main(){
+	
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	
+	string str;
+	int minus = 0;
+
+	cin >> str;
+
+	for (int i = 1; i < str.size(); i++) {
+		if (str[i - 1] == 'c' && str[i] == '=') {
+			minus += 1;
+		}
+		else if (str[i - 1] == 'c' && str[i] == '-') {
+			minus += 1;
+		}
+		else if (str[i - 1] == 'd' && str[i] == '-') {
+			minus += 1;
+		}
+		else if (str[i - 1] == 'l' && str[i] == 'j') {
+			minus += 1;
+		}
+		else if (str[i - 1] == 'n' && str[i] == 'j') {
+			minus += 1;
+		}
+		else if (str[i - 1] == 's' && str[i] == '=') {
+			minus += 1;
+		}
+		else if (str[i - 1] == 'z' && str[i] == '=') {
+
+			minus += 1;
+		
+			if (i > 1) {
+				if (str[i - 2] == 'd') {
+					minus += 1;
+					
+				}
+
+			}
+			
+		}
+		
+	}
+	cout << str.size()-minus;
+
+}
