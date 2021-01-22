@@ -1,0 +1,25 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<string>
+using namespace std;
+
+int main(){
+	
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	
+	static int MAX = 2100000000;
+	int A, B, C;
+
+	cin >> A >> B >> C;
+	
+	if (C - B <= 0)
+		cout << -1;
+	else
+		cout <<( A / (C - B) + 1);
+
+	
+
+
+}
