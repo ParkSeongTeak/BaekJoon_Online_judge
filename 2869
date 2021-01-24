@@ -1,0 +1,23 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<string>
+using namespace std;
+	
+int main(){
+	
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);	
+	
+	int A, B, V;
+	int Day;
+	cin >> A >> B >> V;
+
+	if ((V - A) % (A - B) == 0) {
+		Day = (V - A) / (A - B)+1;
+	}
+	else {
+		Day = (V - A) / (A - B) + 2;
+	}
+	cout << Day;
+}
