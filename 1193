@@ -1,0 +1,49 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<string>
+using namespace std;
+
+
+int Sum_Equ_Seq(int i) {
+	int sum = 0;
+	
+	for (int j = i; j > 0; j--) {
+		sum += j;
+	}
+	return sum;
+}
+int main(){
+	
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	
+	bool isUp = true;
+	int N;
+	int fractions[2] = { 1,1 };//0분자	1분모
+	int cnt = 1;
+	
+	cin >> N;
+
+	while (N - Sum_Equ_Seq(cnt) > 0) {
+		cnt++;
+	}
+
+	N = N - Sum_Equ_Seq(cnt);
+
+	fractions[cnt % 2] = cnt;
+
+	while (N < 0) {
+		fractions[cnt % 2] -= 1;
+		fractions[(cnt + 1) % 2] += 1;
+		N++;
+	}
+
+	cout << fractions[0] << "/" << fractions[1] << "\n";
+
+	isUp = true;
+	cnt = 1;
+	fractions[0] = 1;
+	fractions[1] = 1;
+
+}
