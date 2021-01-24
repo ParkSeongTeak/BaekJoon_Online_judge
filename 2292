@@ -1,0 +1,26 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<string>
+using namespace std;
+
+int main(){
+	
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	
+	int N;
+	int layer=0;
+	int room_num = 1;
+	
+	cin >> N;
+	
+	if (N == 1)
+		layer = 1;
+
+	while (N > room_num) {
+		room_num = room_num + 6 * layer;
+		layer += 1;
+	}
+	cout << layer ;
+}
