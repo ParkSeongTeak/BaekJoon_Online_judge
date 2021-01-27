@@ -1,0 +1,36 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+
+int main() {
+		
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int T, H, W, N;
+
+	int YY , XX;
+
+	cin >> T;
+	for (int i = 0; i < T; i++) {
+		cin >> H >> W >> N;
+
+		if (N % H == 0) {
+			YY = H;
+		}
+		else {
+			YY = N % H;
+		}
+		if (N % H == 0) {
+			XX = N / H;
+		}
+		else {
+			XX = N / H +1;
+		}
+
+		cout << 100 * YY + XX<<"\n";
+	}
+
+
+}
