@@ -1,0 +1,46 @@
+#include<iostream>
+#include<vector>
+#include<math.h>
+
+using namespace std;
+
+
+int main() {
+	
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	
+	bool non_prime_num[10001] = {true,true,false,};
+	int num = 2;
+	int N,M;
+	bool Its_min=true;
+	int sum = 0;
+
+	int min = 987654321;
+	for (int i = 2; i <= 10000; i++) {
+		if (!non_prime_num[i]) {
+			while (i*num <= 10000) {
+				non_prime_num[i * num] = true;
+				num++;
+			}
+			num = 2;
+		}
+	}
+
+	cin >> M >> N;
+
+	for (int i = M; i <= N; i++) {
+		if (!non_prime_num[i]) {
+			if (Its_min) {
+				min = i;
+				Its_min = false;
+			}
+			sum += i;
+		}
+	}
+	if (sum != 0)
+		cout << sum << "\n" << min;
+	else
+		cout << -1;
+}
