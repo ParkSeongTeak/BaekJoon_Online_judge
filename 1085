@@ -1,0 +1,21 @@
+#include<iostream>
+#include<string>
+using namespace std;
+int main() {
+	int x, y, w, h;
+	cin >> x>> y>> w>> h;
+
+	int Distance[4];
+	Distance[0] = x - 0;
+	Distance[1] = w - x;
+	Distance[2] = y - 0;
+	Distance[3] = h - y;
+
+	int min = 987654321;
+	for (int i = 0; i < 4; i++) {
+		if (min > Distance[i])
+			min = Distance[i];
+	}
+	
+	cout << min;
+}
