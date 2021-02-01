@@ -1,0 +1,42 @@
+#include<iostream>
+#include<math.h>
+using namespace std;
+
+long pow(long x) {
+	return x * x;
+}
+
+
+int main() {
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int T;
+	long x1, y1, r1, x2, y2, r2;
+
+
+	long p_To_p;
+
+	cin >> T;
+
+	for (int i = 0; i < T; i++) {
+		cin >> x1 >> y1 >> r1 >> x2 >> y2 >> r2;
+
+		p_To_p = pow(x1 - x2) + pow(y1 - y2);
+
+		if (p_To_p == 0 && r1 == r2)
+			cout <<-1<<"\n";
+		else if (pow(r1 + r2) < p_To_p)
+			cout << 0 << "\n";
+		else if (pow(r1 - r2) > p_To_p)
+			cout << 0 << "\n";
+		else if (pow(r1 + r2) == p_To_p || pow(r1 - r2) == p_To_p)
+			cout << 1 << "\n";
+		else
+			cout << 2 << "\n";
+
+
+	}
+}
