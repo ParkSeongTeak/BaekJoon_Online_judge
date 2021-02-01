@@ -1,0 +1,36 @@
+#include<iostream>
+using namespace std;
+
+
+int main() {
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int px[4];
+	int py[4];
+
+	int tmpx, tmpy;
+
+	for (int i = 0; i < 3; i++)
+		cin >> px[i] >> py[i];
+
+	if (px[0] != px[1] && px[0] != px[2])
+		px[3] = px[0];
+	else if (px[0] == px[1])
+		px[3] = px[2];
+	else
+		px[3] = px[1];
+
+
+	if (py[0] != py[1] && py[0] != py[2])
+		py[3] = py[0];
+	else if (py[0] == py[1])
+		py[3] = py[2];
+	else
+		py[3] = py[1];
+
+	cout << px[3] << " " << py[3];
+
+}
