@@ -1,0 +1,48 @@
+#include <iostream>
+#define Max 2188
+using namespace std;
+
+char map[Max][Max];
+
+void StarMap(int N,int y,int x) {
+	if (N == 1) {
+		map[y][x] = '*';
+	}
+	else {
+		int div = N / 3;
+		for(int i=0;i<3;i++)
+			for (int j = 0; j < 3; j++) {
+				if (i == 1 && j == 1)
+					continue;
+				else {
+					StarMap(div, y + div * i, x + div * j);
+				}
+
+			}
+	}
+}
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int N;
+	cin >> N;
+
+	for (int i = 0; i < Max; i++)
+		for (int j = 0; j < Max;j++) {
+			map[i][j] = ' ';
+	}
+
+	StarMap(N, 0, 0);
+
+	for (int i = 0; i < N; i++){
+		for (int j = 0; j < N; j++) {
+			cout << map[i][j];
+		}
+		cout << "\n";
+	}
+
+}
