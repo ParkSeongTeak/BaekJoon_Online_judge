@@ -1,0 +1,36 @@
+#include <iostream>
+using namespace std;
+
+int pow(int N) {
+	if (N == 0)return 1;
+	return 2 * pow(N - 1);
+}
+
+void Hanoi(int N,int Me, int Tmp,int Target) {
+	if (N == 1) {
+		cout << Me << " " << Target << "\n";
+		
+	}
+	else {
+		Hanoi(N-1,Me,Target,Tmp);
+		cout << Me << " " << Target<<"\n";
+		
+		Hanoi(N - 1, Tmp, Me, Target);
+
+	}
+}
+
+
+
+int main(){
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	int N;
+	cin >> N;
+
+	
+	cout <<pow (N)-1<<"\n";
+	Hanoi(N, 1, 2, 3);
+
+}
