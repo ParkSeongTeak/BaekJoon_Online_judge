@@ -1,0 +1,38 @@
+#include <iostream>
+using namespace std;
+
+int main(){
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	
+	int N, cnt = 0;
+	int num=666,tmp, ans = 0;
+
+	cin >> N;
+
+	while (cnt != N) {
+		tmp = num;
+		
+		while(tmp>0){
+			if (tmp % 10 == 6) {
+				if ((tmp/10) % 10 == 6) {
+					if ((tmp/100) % 10 == 6) {
+						cnt += 1;
+						ans = num;
+						break;
+					}
+				}
+			}
+		
+			tmp /= 10;
+		
+		}
+
+
+		num += 1;
+	}
+
+	cout << ans;
+
+}
