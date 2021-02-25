@@ -1,0 +1,39 @@
+#include<iostream>
+#include<vector>
+#include<string>
+#include<algorithm>
+
+using namespace std;
+
+typedef struct {
+	int age;
+	string name;
+} User;
+
+
+
+bool compare(User a, User b) {	
+	return a.age < b.age;
+}
+
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int N;
+	vector<User> user;
+	
+	cin >> N;
+	for (int i = 0; i < N; i++) {
+		User tmp;
+		cin >> tmp.age >> tmp.name;
+		user.push_back(tmp);
+	}
+	stable_sort(user.begin(), user.end(), compare);
+	
+	for (int i = 0; i < user.size(); i++) {
+		cout << user[i].age<<" "<<user[i].name<<"\n";
+	}
+}
