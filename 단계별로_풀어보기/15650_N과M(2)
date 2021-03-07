@@ -1,0 +1,61 @@
+#include<iostream>
+#include<vector>
+#include<string>
+#include<algorithm>
+using namespace std;
+
+bool used[71][9];
+int arr[9];
+int used_idx = 1;
+
+bool isalready() {
+	for (int j = 1; j < used_idx; j++) {
+		bool IsSame = true;
+		for (int i = 0; i < 9; i++) {
+			
+			if (used[0][i] != used[j][i])
+				IsSame = false;
+		}
+		if (IsSame) return false;
+	}
+	return true;
+}
+
+void BackTracking(int depth, int max,int idx) {
+	if (idx == depth) {
+		if (isalready()) {
+			for (int i = 0; i < depth; i++) {
+				
+				cout << arr[i] << " ";
+				for (int i = 0; i < 9; i++) {
+					used[used_idx][i] = used[0][i];
+					
+				}
+				
+			}
+			used_idx += 1;
+			cout << "\n";
+		}
+		
+		return;
+	}
+	for (int i = 1; i <= max; i++) {
+		if (used[0][i] == false) {
+			used[0][i] = true;
+			arr[idx] = i;
+			BackTracking(depth, max, idx + 1);
+			used[0][i] = false;
+		}
+	}
+}
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int M, N;
+	cin >> N >> M;
+	BackTracking(M, N, 0);
+	
+}
