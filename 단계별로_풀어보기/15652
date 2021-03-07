@@ -1,0 +1,44 @@
+#include<iostream>
+#include<vector>
+#include<string>
+#include<algorithm>
+using namespace std;
+
+//bool used[9];
+int arr[9];
+void BackTracking(int depth, int max, int idx) {
+	if (idx == depth) {
+		for (int i = 0; i < depth; i++) {
+			cout << arr[i] << " ";
+		}
+		cout << "\n";
+		return;
+	}
+	for (int i = 1; i <= max; i++) {
+		if (idx != 0) {
+			if (arr[idx - 1] <= i) {
+				arr[idx] = i;
+				BackTracking(depth, max, idx + 1);
+			}
+		}
+		else {
+			//if (used[i] == false) {
+				//used[i] = true;
+			arr[idx] = i;
+			BackTracking(depth, max, idx + 1);
+			//used[i] = false;
+		//}
+		}
+	}
+}
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int M, N;
+	cin >> N >> M;
+	BackTracking(M, N, 0);
+
+}
