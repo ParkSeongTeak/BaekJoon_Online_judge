@@ -1,0 +1,62 @@
+#include<iostream>
+#include<vector>
+#include<string>
+#include<algorithm>
+using namespace std;
+
+int arr[15][15]; // 0 빈자리 1 Queen이 있는 자리 2 사용 불가능한 자리
+int cnt = 0;
+
+
+
+void form(int x, int y, int depth, int dx, int dy,bool Do) {
+	
+	while (y >= 0 && y < depth && x >= 0 && x < depth) {
+		y += dy;
+		x += dx;
+		if (Do)
+			arr[y][x] += 2;
+		else
+			arr[y][x] -= 2;
+	}
+}
+
+void BackTracking(int depth, int idx) {
+	if (depth == idx) {
+		cnt += 1;
+		return;
+	}
+
+
+	bool check = false;
+	int dx[8] = { 1,-1,1,-1,0,0,1,-1 };
+	int dy[8] = { 1,-1,-1,1,1,-1,0,0 };
+
+	for (int i = 0; i < depth;i++) {
+		
+		if (arr[idx][i]==0) {
+			check = true;
+			arr[idx][i] += 1;
+			
+			for (int p = 0; p < 8; p++)
+				form(i, idx, depth, dx[p], dy[p],true);
+			BackTracking(depth, idx + 1);
+			arr[idx][i] -= 1;
+			for (int p = 0; p < 8; p++)
+				form(i, idx, depth, dx[p], dy[p], false);
+		}		
+	}
+	
+}
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int  N;
+	cin >> N;
+	BackTracking(N, 0);
+	cout << cnt;
+
+}
