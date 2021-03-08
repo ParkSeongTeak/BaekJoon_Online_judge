@@ -1,0 +1,201 @@
+#include<iostream>
+#include<vector>
+#include<string>
+#include<algorithm>
+using namespace std;
+
+int map[9][9];		
+bool xmap[10] = { true,false, };
+bool * ymap;
+bool * sqr;
+bool maybe[10] = { true, false, };
+
+
+
+bool * Ymap(int x) {
+	bool * arr= new bool[10];
+	for (int i = 0; i < 9; i++) {
+		arr[map[i][x]] = true;
+	}
+
+	return arr;
+}
+
+bool * Sqrmap(int i) {		// 1	2	3	
+	bool * arr = new bool[10];			// 4	5	6
+	switch (i) {			// 7	8	9
+	case 1:
+		for (int y = 0; y < 3; y++) {
+			for (int x = 0; x < 3; x++) {
+				arr[map[y][x]] = true;
+			}
+		}
+		return arr;
+	case 2:
+		for (int y = 0; y < 3; y++) {
+			for (int x = 3; x < 6; x++) {
+				arr[map[y][x]] = true;
+			}
+		}
+		return arr;
+
+	case 3:
+		for (int y = 0; y < 3; y++) {
+			for (int x = 6; x < 9; x++) {
+				arr[map[y][x]] = true;
+			}
+		}
+		return arr;
+
+	case 4:
+		for (int y = 3; y < 6; y++) {
+			for (int x = 0; x < 3; x++) {
+				arr[map[y][x]] = true;
+			}
+		}
+		return arr;
+
+	case 5:
+		for (int y = 3; y < 6; y++) {
+			for (int x = 3; x < 6; x++) {
+				arr[map[y][x]] = true;
+			}
+		}
+		return arr;
+
+	case 6:
+		for (int y = 3; y < 6; y++) {
+			for (int x = 6; x < 9; x++) {
+				arr[map[y][x]] = true;
+			}
+		}
+		return arr;
+
+	case 7:
+		for (int y = 6; y < 9; y++) {
+			for (int x = 0; x < 3; x++) {
+				arr[map[y][x]] = true;
+			}
+		}
+		return arr;
+
+	case 8:
+		for (int y = 6; y < 9; y++) {
+			for (int x = 3; x < 6; x++) {
+				arr[map[y][x]] = true;
+			}
+		}
+		return arr;
+
+	case 9:
+		for (int y = 6; y < 9; y++) {
+			for (int x = 6; x < 9; x++) {
+				arr[map[y][x]] = true;
+			}
+		}
+		return arr;
+
+
+
+	}
+
+
+}
+
+void clear() {
+	free(ymap);
+	free(sqr);
+	for (int i = 1; i < 10; i++)
+		xmap[i] = false;
+}
+
+void copy(bool * arr, int target[]) {
+	for (int i = 0; i < 9;i++) {
+		arr[target[i]] = true;
+	}
+}
+
+void getPotentialAns(int y, int x) {
+	if (y<3) {
+		if (x < 3)
+			sqr = Sqrmap(1);
+		else if (x < 6)
+			sqr = Sqrmap(2);
+		else if (x < 9)
+			sqr = Sqrmap(3);
+	}
+	else if (y < 6) {
+		if (x < 3)
+			sqr = Sqrmap(4); 
+		else if (x < 6)
+			sqr = Sqrmap(5);
+		else if (x < 9)
+			sqr = Sqrmap(6);
+
+	}
+	else if (y < 9) {
+		if (x < 3)
+			sqr = Sqrmap(7);
+		else if (x < 6)
+			sqr = Sqrmap(8);
+		else if (x < 9)
+			sqr = Sqrmap(9);
+	}
+	ymap = Ymap(x);
+	for (int i = 1; i < 9; i++) {
+		xmap[map[y][i]] = true;
+	}
+	
+	
+	
+	for (int i = 1; i < 10; i++) {
+		
+		if (!xmap[i] && !ymap[i] && !sqr[i]) {
+			maybe[i] = true;
+
+			cout << "maybe " << i;
+		}
+	}
+}
+
+
+void Sodoku() {
+	bool full = true;
+	for (int y = 0; y < 9;y++) {
+		for (int x = 0; x < 9;x++) {
+			if (map[y][x] == 0) {
+				full = false;
+				clear();
+				getPotentialAns(y,x);
+				for (int i = 1; i < 10; i++) {
+					if (maybe[i]) {
+						map[y][x] = i;
+						Sodoku();
+						map[y][x] = 0;
+					}
+				}
+			}
+		}
+	}
+	if (full) {
+		for (int y = 0; y < 9; y++) {
+			for (int x = 0; x < 9; x++) {
+				cout << map[y][x] << " ";
+			}
+			cout << "\n";
+		}
+
+	}
+}
+
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	for (int i = 0; i < 9; i++)
+		for (int j = 0; j < 9; j++)
+			cin >> map[i][j];
+	Sodoku();
+}
