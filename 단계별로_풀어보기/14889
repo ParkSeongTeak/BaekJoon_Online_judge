@@ -1,0 +1,103 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <cstdlib>
+using namespace std;
+
+int map[20][20];
+int Min = 987654321;
+bool people[20];
+
+void balance(vector<int> team1, vector<int> team2);
+void maketeam(int N, vector<int>team1,vector<int>team2,int idx) {
+	
+	if (N / 2 == team1.size()) {
+		for (int i = idx; i < N; i++) {
+			if (!people[i])
+				team2.push_back(i);
+		}
+
+		balance(team1, team2);
+		return;
+	}
+
+	if (N / 2 == team2.size()) {
+		for (int i = idx; i < N; i++) {
+			if (!people[i])
+				team1.push_back(i);
+		}
+
+		balance(team1, team2);
+		return;
+
+	}
+
+	if (idx == 0) {
+		team1.push_back(idx);
+		maketeam(N, team1, team2, idx + 1);
+
+	}
+	else {
+		team1.push_back(idx);
+		maketeam(N, team1, team2, idx+1);
+		team1.pop_back();
+
+		team2.push_back(idx);
+		maketeam(N, team1, team2, idx + 1);
+		team2.pop_back();
+	}
+
+}
+
+
+
+void balance(vector<int> team1, vector<int> team2) {
+	int ans1=0, ans2=0,tmp;
+
+	for (int i = 0; i < team1.size(); i++) {
+		
+		for (int j = i+1; j < team1.size(); j++) {
+			tmp = map[team1[i]][team1[j]] + map[team1[j]][team1[i]];
+			ans1 += tmp;
+		}
+		
+	}
+	
+	for (int i = 0; i < team2.size(); i++) {
+		for (int j = i + 1; j < team2.size(); j++) {
+			tmp = map[team2[i]][team2[j]] + map[team2[j]][team2[i]];
+			ans2 += tmp;
+		}
+		
+	}
+	
+	if (Min > abs(ans1 - ans2))
+		Min = abs(ans1 - ans2);
+	if (Min == 0) { 
+		cout << Min;
+		exit(0); 
+	}
+	
+}
+
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	
+	
+	int N;
+	cin >> N;
+	vector<int> team1, team2;
+
+	for(int i=0;i<N;i++){
+		for (int j = 0; j < N; j++) {
+			cin >> map[i][j];
+		}
+
+	}
+	maketeam(N, team1, team2, 0);
+	cout << Min;
+
+}
