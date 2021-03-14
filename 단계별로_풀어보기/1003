@@ -1,0 +1,46 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <cstdlib>
+using namespace std;
+
+
+typedef struct {
+	bool active = false;
+	int zero = 0, one = 0;
+}particle;
+
+particle NUM[41];
+
+void fibonacci(int n) {	
+	if (!NUM[n - 1].active) 
+		fibonacci(n - 1);
+	if (!NUM[n - 2].active)
+		fibonacci(n - 2);
+
+	if (!NUM[n].active) {
+		NUM[n].active = true;
+		NUM[n].zero = NUM[n - 1].zero + NUM[n - 2].zero;
+		NUM[n].one = NUM[n - 1].one + NUM[n - 2].one;
+	}
+}
+
+
+int main() {
+	int test;
+	int num;
+	cin >> test;
+	
+
+	NUM[0].active = true;
+	NUM[0].zero = 1;
+
+	NUM[1].active = true;
+	NUM[1].one = 1;
+	fibonacci(40);
+
+	for (int i = 0; i < test; i++) {
+		cin >> num;
+		cout<<NUM[num].zero << " " << NUM[num].one<<"\n";
+	}
+}
