@@ -1,0 +1,31 @@
+#include<iostream>
+using namespace std;
+
+long long num[101] = {0,1,1,1,2,2,0};
+long long f(int n) {
+	if (n < 6) {
+		if (n == 1) return 1;
+		if (n == 2) return 1;
+		if (n == 3) return 1;
+		if (n == 4) return 2;
+		if (n == 5) return 2;
+	}
+	if (num[n] != 0) return num[n];
+	
+	else {
+		num[n] = f(n - 1) + f(n - 5);
+		return num[n];
+	}
+}
+
+
+
+
+int main(){
+	int T,n;
+	cin >> T;
+	for (int i = 0; i < T; i++) {
+		cin >> n;
+		cout << f(n)<<"\n";
+	}
+}
