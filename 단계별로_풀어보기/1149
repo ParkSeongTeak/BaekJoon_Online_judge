@@ -1,0 +1,65 @@
+#include<iostream>
+#include<algorithm>
+using namespace std;
+
+int map[3][1001];
+int idx=0;
+int sum[3][1001];
+int N;
+
+
+int one = 0, two = 0;
+
+void money(int idx) {
+	if (idx == 0) {
+		sum[0][0] = map[0][0];
+		sum[1][0] = map[1][0];
+		sum[2][0] = map[2][0];
+		money(1);
+		money(1);
+		money(1);
+
+	}
+	else if (idx == N) {
+		return;
+	}
+	else {
+		for (int pick = 0; pick < 3;pick++) {	// 집 선택
+
+			one = 0, two = 0;
+
+			for (int i = 0; i < 3; i++) {		// 선택한 집과 다른번호 대소비교
+
+				if (pick != i) {
+					if (one == 0) {
+						one = sum[i][idx-1];
+					}
+					else {
+						two = sum[i][idx-1];
+					}
+
+					if (one < two) {
+						sum[pick][idx] = one + map[pick][idx];
+					}
+					else
+						sum[pick][idx] = two + map[pick][idx];
+				}
+			}
+		}
+
+		money(idx + 1);
+	}
+}
+
+int main() {
+	cin >> N;
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < 3; j++) {
+			cin >> map[j][i];
+		}
+	}
+
+	money(0);
+	cout << min(min(sum[0][N - 1], sum[1][N - 1]), sum[2][N - 1]);
+	
+}
