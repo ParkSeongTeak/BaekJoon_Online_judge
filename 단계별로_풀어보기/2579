@@ -1,0 +1,29 @@
+#include<iostream>
+#include<algorithm>
+using namespace std;
+
+int N;
+int map[301];
+int sum[2][301];	//[0][n] 연속해서 n에 온경우 [1][n] 한칸뛰어서 n에 온경우
+
+void go(int idx) {
+	if (idx >= N) return;
+
+	sum[0][idx] = sum[1][idx - 1] + map[idx];
+	sum[1][idx] = max(sum[0][idx - 2], sum[1][idx - 2]) + map[idx];
+	go(idx + 1);
+}
+
+int main() {
+	
+	cin >> N;
+	for (int i=0; i < N; i++) {
+		cin >> map[i];
+	}
+	sum[0][0] = map[0];
+	sum[1][1] = map[1];
+	sum[0][1] = sum[0][0] + map[1];
+	go(2);
+
+	cout << max(sum[0][N - 1], sum[1][N - 1]);
+}
