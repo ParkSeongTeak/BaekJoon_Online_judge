@@ -1,0 +1,37 @@
+#include<iostream>
+#include<cstring>
+#include<algorithm>
+using namespace std;
+
+int N;
+int arr[10][101];			// [수][자리]
+
+void stepsNum(int idx) {
+	if (idx == N) return;
+	
+	arr[0][idx] = arr[1][idx - 1];
+	arr[0][idx] %= 1000000000;
+	for (int i = 1; i < 9; i++) {
+		arr[i][idx] = arr[i - 1][idx - 1] + arr[i + 1][idx - 1];
+		arr[i][idx] %= 1000000000;
+	}
+	arr[9][idx] = arr[8][idx - 1];
+	arr[9][idx] %= 1000000000;
+	stepsNum(idx + 1);
+}
+
+int main() {
+	cin >> N;
+	for (int i = 1; i < 10; i++) {
+		arr[i][0] = 1;
+	}
+
+	stepsNum(1);
+	long ans=0;
+	
+	for (int i = 0; i < 10; i++) 
+		ans += (long)arr[i][N-1];	
+	
+	ans %= 1000000000;
+	cout << ans;
+}
