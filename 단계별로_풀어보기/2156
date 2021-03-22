@@ -1,0 +1,37 @@
+#include<iostream>
+#include<cstring>
+#include<algorithm>
+using namespace std;
+
+
+int map[10001];
+int arr[2][10001];		//[0] 전잔을 안마심 [1]전잔을 마심 
+
+
+void drink(int N) {
+	if (N < 3) return;
+
+	for (int i = 3 ; i <= N; i++) {
+		arr[0][i] = max(max(arr[0][i - 3], arr[1][i - 3]),max(arr[1][i - 2] ,arr[0][i-2])) + map[i];
+		arr[1][i] = arr[0][i - 1] + map[i];
+	}
+
+}
+
+int main() {	
+	int N;
+	cin >> N;
+	for (int i = 1; i <= N; i++) {
+		cin >> map[i];
+	}
+	arr[0][1] = map[1];			//0전잔을 안마심 1전잔을 마심
+
+	arr[0][2] = map[2];
+	arr[1][2] = map[1] + map[2];
+
+	arr[0][3] = map[1] + map[3];
+	arr[1][3] = map[2] + map[3];
+	drink(N);
+	
+	cout << max(max(arr[0][N], arr[1][N]),arr[1][N-1]);		//마지막 잔을 안마실수도;;;
+}
