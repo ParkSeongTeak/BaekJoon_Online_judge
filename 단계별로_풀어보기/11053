@@ -1,0 +1,42 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+int map[1000];
+int cnt[1000];
+
+
+typedef struct pare {
+	int cnt;
+	int map;
+}pare;
+
+
+int main() {
+	vector<pare> P;
+	int N;
+	cin >> N;
+	
+	for (int i = 1; i <= N; i++)
+		cin >> map[i];
+
+	for (int i = 0; i <= N; i++) {
+		for (int j = 0; j < i; j++) {
+			if ()
+				
+		}
+	}
+	int Max = 0;
+	for (int i = 0; i <= N; i++) {
+		cout << cnt[i] << " ";
+		if (Max < cnt[i])
+			Max = cnt[i];
+		
+	}
+	cout << "\n";
+	cout << Max;
+
+
+
+}
