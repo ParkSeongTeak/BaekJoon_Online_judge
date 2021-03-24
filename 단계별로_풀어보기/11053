@@ -1,42 +1,29 @@
 #include<iostream>
-#include<vector>
 #include<algorithm>
+
 using namespace std;
 
-int map[1000];
-int cnt[1000];
-
-
-typedef struct pare {
-	int cnt;
-	int map;
-}pare;
-
-
 int main() {
-	vector<pare> P;
-	int N;
-	cin >> N;
+	int n;
+	int arr[1000], dp[1000];
+	int sum = 0;
 	
-	for (int i = 1; i <= N; i++)
-		cin >> map[i];
+	cin >> n;
+	for (int i = 0; i < n; i++) {
+		cin >> arr[i];
+	}
 
-	for (int i = 0; i <= N; i++) {
+	for (int i = 0; i < n; i++) {
+		dp[i] = 1;
+
 		for (int j = 0; j < i; j++) {
-			if ()
-				
+			if (arr[i] > arr[j]) {
+				dp[i] = max(dp[i], dp[j] + 1); //현재값이 큰가, 전값에 1더한게 더 큰가?
+			}
 		}
+
+		sum = max(sum, dp[i]); // 종래의 dp값이 큰가 현 dp값이 큰가?
 	}
-	int Max = 0;
-	for (int i = 0; i <= N; i++) {
-		cout << cnt[i] << " ";
-		if (Max < cnt[i])
-			Max = cnt[i];
-		
-	}
-	cout << "\n";
-	cout << Max;
-
-
-
+	cout << sum;
+	
 }
