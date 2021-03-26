@@ -1,0 +1,15 @@
+#include<iostream>
+#include<string>
+#include<algorithm>
+using namespace std;
+
+int main() {
+	string fst;
+	string sec;
+	int fstdp[1000];
+	int secdp[1000];
+	int idx = 0;
+	cin >> fst>>sec;
+
+
+}
