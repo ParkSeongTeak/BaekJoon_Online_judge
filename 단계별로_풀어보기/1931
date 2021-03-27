@@ -1,0 +1,25 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+vector<int> start;
+vector<int> finish;
+
+
+int main() {
+	int N;
+	int str;
+	int sta_tmp;
+	int fin_tmp;
+
+	for (int i = 0; i < N; i++) {
+		cin >> sta_tmp >> fin_tmp;
+		start.push_back(sta_tmp);
+		finish.push_back(fin_tmp);
+	}
+
+	for (int i = 0; i < start.size(); i++) {
+
+	}
+}
