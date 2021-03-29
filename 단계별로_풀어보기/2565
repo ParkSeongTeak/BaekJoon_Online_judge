@@ -1,36 +1,73 @@
-#include <iostream>
-#include <algorithm>
-#include <vector>
-
+#include<iostream>
+#include<vector>
+#include<algorithm>
 using namespace std;
 
-int dp[102];
+class Line {
+public:
+	int A;
+	int B;
+	
+};
+Line arr[100];
+Line tmp[100];
 
-int main() {
-	int N, a, b;
-	int result = 0;
-	cin >> N;
+int upDp[100];
+int downDp[100];
+int upSum = 0;
+int downSum = 0;
+int ans = 0;
 
-	vector<pair<int, int>> v;
-	v.emplace_back(0, 0);
-	for (int i = 0; i < N; i++) {
-		cin >> a >> b;
-		v.emplace_back(a, b);
+
+void marge(int start, int mid, int end) {
+	int i = start, j = mid + 1, k = start;
+	while (i <= mid && j <= end) {
+		if (arr[i].A < arr[j].A) {
+			tmp[k++] = arr[i++];
+		}
+		else {
+			tmp[k++] = arr[j++];
+		}
 	}
-	sort(v.begin(), v.end());
+	while (i <= mid) {
+		tmp[k++] = arr[i++];
+	}
+	while (j <= end) {
+		tmp[k++] = arr[j++];
+	}
+	for (int i = 0; i <= end; i++) {
+		arr[i] = tmp[i];
+	}
+}
 
 
-	for (int i = 1; i <= N; i++) {
+void marge_sort(int start, int end) {
+	if (start == end) return;
+
+	int mid = (start + end) / 2;
+	marge_sort(start, mid);
+	marge_sort(mid + 1, end);
+	marge(start, mid, end);
+}
+int main() {
+	int n;
+	cin >> n;
+	for (int i = 0; i < n; i++) {
+		cin >> arr[i].A;
+		cin >> arr[i].B;
+	}
+
+	marge_sort(0, n - 1);
+	
+	for (int i = 0; i < n; i++) {		//오름차순
+		upDp[i] = 1;
 		for (int j = 0; j < i; j++) {
-			if (v[i].second > v[j].second) {
-				if (dp[j] >= dp[i]) {
-					dp[i] = dp[j] + 1;
-				}
+			if (arr[i].B > arr[j].B) {
+				upDp[i] = max(upDp[i], upDp[j] + 1);
 			}
 		}
-		result = max(result, dp[i]);
+		upSum = max(upSum, upDp[i]);
 	}
-
-	cout << N - result << endl;
-	return 0;
+	
+	cout << n - max(upSum, downSum);
 }
