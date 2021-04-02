@@ -25,8 +25,7 @@ int main() {
 			cnt = (2 * cnt - 1) + 2;
 		else if (dif - cnt * cnt > 0)
 			cnt = (2 * cnt - 1) + 1;
-		else if (dif - cnt * cnt < 0)
-			cout << "Fuck!!";
+		
 		
 		cout << cnt<<"\n";
 
