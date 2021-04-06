@@ -1,15 +1,25 @@
 #include<iostream>
-#include<string>
 #include<algorithm>
+#include<vector>
+#include<string>
 using namespace std;
 
+int DP[1000 + 1][1000 + 1];
+
 int main() {
-	string fst;
+	string fir;
 	string sec;
-	int fstdp[1000];
-	int secdp[1000];
-	int idx = 0;
-	cin >> fst>>sec;
 
-
+	cin >> fir >> sec;
+	for (int i = 1; i <= fir.size(); i++) {
+		for (int j = 1; j <= sec.size(); j++) {
+			if (fir[i - 1] == sec[j - 1]) {
+				DP[i][j] = DP[i - 1][j - 1] + 1;
+			}
+			else {
+				DP[i][j] = max(DP[i - 1][j], DP[i][j - 1]);
+			}
+		}
+	}
+	cout << DP[fir.size()][sec.size()];
 }
