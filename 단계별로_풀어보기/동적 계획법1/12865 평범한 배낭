@@ -1,0 +1,32 @@
+#include<iostream>
+#include<algorithm>
+#include<vector>
+using namespace std;
+#include<iostream>
+#include<algorithm>
+using namespace std;
+
+int DP[100+1][100000+1];	//[N][K] 냅색문제
+int things[2][100+1];		//[0][N] N무게	[1][N] N가치
+
+int main() {
+	int N, K;
+	cin >> N >> K;
+
+	for (int i = 1; i <= N; i++) {
+		cin >> things[0][i] >> things[1][i];
+	}
+	for (int n = 1; n <= N; n++) {
+		for (int w = 1; w <= K; w++ ) {
+			if (w - things[0][n] >= 0) {
+				DP[n][w] = max(DP[n - 1][w], DP[n - 1][w - things[0][n]] + things[1][n]);
+			}
+			else {
+				DP[n][w] = DP[n - 1][w];
+			}
+
+		}
+	}
+		
+	cout << DP[N][K];
+}
