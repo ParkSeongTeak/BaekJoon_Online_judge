@@ -28,7 +28,7 @@ int Greedy() {
 		if (end <= Sequence[i].start) {
 			num++;
 			end = Sequence[i].end;
-		}
+ 		}
 	}
 	return num;
 }
