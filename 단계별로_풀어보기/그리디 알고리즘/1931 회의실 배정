@@ -1,25 +1,58 @@
 #include<iostream>
-#include<vector>
 #include<algorithm>
+#include<vector>
 using namespace std;
 
-vector<int> start;
-vector<int> finish;
+class meeting {
+public:
+	int start;
+	int end;
+	bool operator < (meeting & other);
+};
+bool meeting::operator < (meeting & other) {
+	if (end != other.end) {
+		return end < other.end;
+	}
+	else { 
+		return start < other.start; 
+	}
+	
+}
+vector<meeting> Sequence;
+int dfs[100000];
 
+int Greedy() {
+	int num = 0;
+	int end = -1;
+	for (int i = 0; i < Sequence.size(); i++) {
+		if (end <= Sequence[i].start) {
+			num++;
+			end = Sequence[i].end;
+		}
+	}
+	return num;
+}
 
 int main() {
+	
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
 	int N;
-	int str;
-	int sta_tmp;
-	int fin_tmp;
+	meeting tmp;
+	
+	cin >> N;
 
 	for (int i = 0; i < N; i++) {
-		cin >> sta_tmp >> fin_tmp;
-		start.push_back(sta_tmp);
-		finish.push_back(fin_tmp);
+		cin >> tmp.start >> tmp.end;
+		Sequence.push_back(tmp);
+	}
+	sort(Sequence.begin(), Sequence.end());
+
+	for (int i = 0; i < Sequence.size(); i++) {
+		cout << Sequence[i].start << " " << Sequence[i].end << endl;
 	}
 
-	for (int i = 0; i < start.size(); i++) {
-
-	}
+	cout << Greedy();
 }
