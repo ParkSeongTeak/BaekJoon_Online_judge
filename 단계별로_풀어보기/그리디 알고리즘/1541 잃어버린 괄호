@@ -1,0 +1,83 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <string>
+#include <cstring>
+#include <vector>
+using namespace std;
+
+int pow(int num, int powNum) {
+	if (powNum == 0) return 1;
+	return num * pow(num, powNum - 1);
+}
+
+int strToInt(string num) {
+	int n = 0;
+	for (int i = 0; i < num.size(); i++) {
+		n += ((int)num[i] - 48) * pow(10, num.size() - i - 1);
+	
+	}
+	
+	return n;
+}
+
+
+vector<string> split(string s, string divid) {
+	vector<string> v;
+	char* c = strtok((char*)s.c_str(), divid.c_str());
+	while (c) {
+		v.push_back(c);
+		c = strtok(NULL, divid.c_str());
+
+	}
+	return v;
+}
+/*
+vector<string> split2(string s, string divid) {
+	vector<string> v;
+	int start = 0;
+	int d = s.find(divid);
+	while (d != -1) {
+		v.push_back(s.substr(start, d - start));
+		start = d + 1;
+		d = s.find(divid, start);
+	}
+	v.push_back(s.substr(start, d - start));
+
+	return v;
+}
+*/
+int main() {
+	string Equation;
+	vector<string> num;
+	vector<char> Operator;
+	int before = 0;				// - 가 하나도 나오기전
+	int after = 0;				// - 가 하나라도 나온 후
+	bool Minus= false;
+	
+	cin >> Equation;
+
+
+	for (int i = 0; i < Equation.size(); i++) {				// get + - 
+		if (Equation[i] == '+' || Equation[i] == '-') {
+			Operator.push_back(Equation[i]);
+		}
+	}		
+
+
+	num = split(Equation, "-+");							//get num 
+	
+	before = strToInt(num[0]);									
+
+	for (int i = 0; i < Operator.size(); i++) {
+		if (!Minus) if (Operator[i] == '-') Minus = true;
+		if (Minus) {
+			after += strToInt(num[i + 1]);
+		}
+		else {
+			before += strToInt(num[i + 1]);
+		}
+	}
+	cout << before - after;
+}
+
+//참고 https://notepad96.tistory.com/entry/c-%EB%AC%B8%EC%9E%90%EC%97%B4-%EB%82%98%EB%88%84%EA%B8%B0-string-split
