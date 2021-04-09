@@ -1,0 +1,34 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+int main() {
+	int N;
+	cin >> N;
+	vector<int> Distance;
+	vector<int> ExpPerL;
+	int cheaper, Length = 0;
+	long long money = 0;				//오버플로우 조심
+	int tmp;
+	for (int i = 0; i < N - 1; i++) {
+		cin >> tmp;
+		Distance.push_back(tmp);
+	}
+	for (int i = 0; i < N; i++) {
+		cin >> tmp;
+		ExpPerL.push_back(tmp);
+	}
+	
+	cheaper = ExpPerL[0];
+	for (int i = 1; i < N; i++) {
+		Length += Distance[i - 1];
+		if (ExpPerL[i] < cheaper) {
+			money += (long long)Length * cheaper;
+			cheaper = ExpPerL[i];
+			Length = 0;
+		}
+	}
+	money += (long long)Length * cheaper;
+	cout << money;
+}
