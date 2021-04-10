@@ -1,0 +1,66 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<string>
+using namespace std;
+
+
+
+int main() {
+	int N;
+	cin >> N;
+	for (int i = 0; i < N; i++) {
+		int first, second;
+		vector<int> FirstFactorization;
+		vector<int> SecondFactorization;
+		vector<int> CommonMeasure;
+		cin >> first >> second;
+
+		for (int i = 2; i <= first; i++) {
+			while (first % i == 0) {
+				FirstFactorization.push_back(i);
+				first /= i;
+			}
+		}
+
+		for (int i = 2; i <= second; i++) {
+			while (second % i == 0) {
+				SecondFactorization.push_back(i);
+				second /= i;
+			}
+		}
+
+
+		for (int i = 0; i < FirstFactorization.size(); i++) {
+			for (int j = 0; j < SecondFactorization.size(); j++) {
+				if (FirstFactorization[i] <= SecondFactorization[j]) {
+					if (FirstFactorization[i] == SecondFactorization[j]) {
+						CommonMeasure.push_back(FirstFactorization[i]);
+						FirstFactorization[i] = 1;
+						SecondFactorization[j] = 1;
+					}
+				}
+
+
+			}
+		}
+
+		int CommonMeasureSum = 1;
+		int CommonMultipleSum = 1;
+		for (int i = 0; i < CommonMeasure.size(); i++) {
+			CommonMeasureSum *= CommonMeasure[i];
+		}
+		CommonMultipleSum = CommonMeasureSum;
+		for (int i = 0; i < FirstFactorization.size(); i++) {
+			CommonMultipleSum *= FirstFactorization[i];
+		}
+		for (int j = 0; j < SecondFactorization.size(); j++) {
+			CommonMultipleSum *= SecondFactorization[j];
+		}
+
+		cout << CommonMultipleSum<<"\n";
+
+	}
+
+
+}
