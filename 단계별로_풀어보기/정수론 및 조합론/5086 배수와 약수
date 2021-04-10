@@ -1,0 +1,22 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<string>
+using namespace std;
+
+int main() {
+	string ans[3] = { "factor","multiple","neither" };
+	int fir = -1, sec = -1;
+	while (1) {
+		cin >> fir >> sec;
+		if (fir == 0 && sec == 0) break;
+		if (sec % fir == 0)
+			cout << ans[0] << "\n";
+		else if (fir % sec == 0)
+			cout << ans[1] << "\n";
+		else
+			cout << ans[2] << "\n";
+
+	}
+
+}
