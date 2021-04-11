@@ -1,0 +1,22 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+
+int DP[11];
+
+
+int Factorial(int i) {
+	if (i == 0) return 1;
+	if (DP[i] == 0) DP[i] = i * Factorial(i - 1);
+	return DP[i];
+}
+
+
+
+int main() {
+	int N, K;
+	cin >> N >> K;
+	cout << Factorial(N) / (Factorial(K)*Factorial(N - K));
+}
