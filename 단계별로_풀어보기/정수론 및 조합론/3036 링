@@ -1,0 +1,29 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+
+vector<int>num;
+vector<int>ans;
+int GCD(int num1, int num2) {			//유클리드 호제법
+	return num1 % num2 ? GCD(num2, num1 % num2) : num2;
+}
+
+int main() {
+	int N,tmp;
+	cin >> N;
+	for (int i = 0; i < N; i++) {
+		cin >> tmp;
+		num.push_back(tmp);
+	}
+
+	int gcd;
+	for (int i = 1; i < num.size(); i++) {
+		int big = (num[0] > num[i] ? num[0] : num[i]);
+		int small = (num[0] > num[i] ? num[i] : num[0]);
+		gcd = GCD(big, small);
+		cout << num[0] / gcd << "/" << num[i] / gcd<< "\n";
+	}
+
+}
