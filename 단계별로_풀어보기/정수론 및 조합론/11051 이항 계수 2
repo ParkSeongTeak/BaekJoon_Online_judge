@@ -4,7 +4,6 @@
 using namespace std;
 
 int nCr[1000+1][1000+1]; // [n][r]
-int factorial[12 + 1];	//12팩까지는 오버플로우 안뜸
 
  
 //(n-1 C r-1) + ( n-1 C r ) = nCr
