@@ -1,0 +1,30 @@
+#include<iostream>
+#include<algorithm>
+#include<vector>
+using namespace std;
+
+int nCr[1000+1][1000+1]; // [n][r]
+int factorial[12 + 1];	//12팩까지는 오버플로우 안뜸
+
+ 
+//(n-1 C r-1) + ( n-1 C r ) = nCr
+int nCk(int N, int K) {
+	if (nCr[N][K] == 0)
+		nCr[N][K] = (nCk(N - 1, K - 1) + nCk(N - 1 , K)) % 10007;
+	
+	return nCr[N][K];
+	
+}
+
+int main() {
+
+	int N, K;
+	cin >> N >> K;
+	for (int i = 1; i <= N; i++) {
+		nCr[i][i] = 1;
+		nCr[i][0] = 1;
+	}
+	cout << nCk(N, K);
+
+
+}
