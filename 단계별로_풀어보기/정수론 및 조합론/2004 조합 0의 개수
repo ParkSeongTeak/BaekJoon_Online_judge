@@ -1,0 +1,49 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<string>
+using namespace std;
+
+int getTwo(int N) {
+	int Two = 0;
+	int tmp = N;
+	while (tmp > 1) {
+		Two += tmp / 2;
+		tmp /= 2;
+	}
+	return Two;
+}
+int getFive(int N) {
+	int Five = 0;
+	int tmp = N;
+	while (tmp > 1) {
+		Five += tmp / 5;
+		tmp /= 5;
+	}
+	return Five;
+}
+
+int nCr(int n, int r) {
+	int N[2];
+	int R[2];
+	int NMinR[2];
+
+	N[0] = getTwo(n);
+	N[1] = getFive(n);
+
+	R[0] = getTwo(r);
+	R[1] = getFive(r);
+
+	NMinR[0] = getTwo(n-r);
+	NMinR[1] = getFive(n-r);
+
+	return min(N[0] - R[0] - NMinR[0], N[1] - R[1] - NMinR[1]);
+}
+
+
+
+int main(){
+	int n,k;
+	cin >> n >>k;
+	cout << nCr(n, k);
+}
