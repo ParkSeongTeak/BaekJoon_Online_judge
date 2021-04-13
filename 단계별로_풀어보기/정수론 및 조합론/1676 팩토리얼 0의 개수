@@ -1,0 +1,37 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<string>
+using namespace std;
+
+int Two = 0;
+int Five = 0;
+
+void getTen(int N) {
+	if (N <= 1 ) return;
+	int tmp = N;
+	bool stop = true;
+	while (stop) {
+		stop = false;
+		if (tmp % 2 == 0) {
+			tmp /= 2;
+			Two += 1;
+			stop = true;
+		}
+		if (tmp % 5 == 0) {
+			tmp /= 5;
+			Five += 1;
+			stop = true;
+
+		}
+
+	}
+	getTen(N - 1);
+}
+
+int main() {
+	int N;
+	cin >> N;
+	getTen(N);
+	cout << min(Two, Five);
+}
