@@ -1,0 +1,61 @@
+#include<iostream>
+#include<stack>
+#include<string>
+using namespace std;
+
+string Function[5] = {
+	"push",
+	"pop",
+	"size",
+	"empty",
+	"top"
+};
+
+stack<int> Stack;
+
+int main() {
+	int T,num;
+	string tmp;
+	cin >> T;
+
+	
+	for (int i = 0; i < T; i++) {
+		cin >> tmp;
+		int func;
+		if (tmp == Function[0]) {
+			cin >> num;
+			Stack.push(num);
+		}
+
+		for (int i = 0; i < 5; i++) if (tmp == Function[i]) func = i;
+		switch (func)
+		{
+		case 0:
+			break;
+		case 1:
+			if (Stack.empty()) cout << -1 << "\n";
+			else {
+				cout << Stack.top()<<"\n";
+				Stack.pop();
+			}
+			break;
+		case 2:
+			cout << Stack.size() << "\n";
+
+			break;
+		case 3:
+			cout << Stack.empty() << "\n";
+
+			break;
+		case 4:
+			if (Stack.empty()) cout << -1 << "\n";
+			else {
+				cout << Stack.top() << "\n";
+			}
+			break;
+
+		default:
+			break;
+		}
+	}
+}
