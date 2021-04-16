@@ -1,0 +1,61 @@
+#include<iostream>
+#include<stack>
+#include<string>
+using namespace std;
+
+int main() {
+	string str;
+	while (1) {
+		getline(cin,str);
+		if (str == ".")break;
+		stack<char> parentheses;
+
+		for (int i = 0; i < str.size(); i++) {
+			if (str[i] == '(') {
+				parentheses.push('(');
+			}
+			else if (str[i] == '[') {
+				parentheses.push('[');
+
+			}
+			else if (str[i] == ')') {
+				if (!parentheses.empty()) {
+					if (parentheses.top() == '(') {
+						parentheses.pop();
+					}
+					else { break; }
+				}
+				else {
+					parentheses.push(')');
+					break; 
+				}
+
+			}
+			else if (str[i] == ']') {
+				if (!parentheses.empty()) {
+
+					if (parentheses.top() == '[') {
+						parentheses.pop();
+					}
+					else break;
+				}
+				else {
+					parentheses.push(']');
+
+					break; 
+				}
+
+			}
+
+		}
+
+		if (parentheses.empty())
+			cout << "yes" << "\n";
+		else
+			cout << "no" << "\n";
+
+
+		str.clear();
+		str = string();
+	}
+}
