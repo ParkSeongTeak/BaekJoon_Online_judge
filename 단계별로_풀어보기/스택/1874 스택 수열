@@ -1,0 +1,43 @@
+#include<iostream>
+#include<stack>
+#include<string>
+#include<vector>
+using namespace std;
+
+vector<int> arr;
+stack<int> input;
+vector<char> opear;
+int main() {
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int N,tmp,idx = 1;
+	cin >> N;
+	for (int i = 0; i < N; i++) {
+		cin >> tmp;
+		arr.push_back(tmp);
+	}
+
+	for (int i = 0; i < arr.size(); i++) {
+		while (arr[i] >= idx) {
+			input.push(idx);
+			idx++;
+			opear.push_back('+');
+		}
+		if (input.top() == arr[i]) {
+			input.pop();
+			opear.push_back('-');
+		}
+		else if (input.top() > arr[i]) {
+			cout << "NO";
+			break;
+		}
+	}
+	if (input.empty()) {
+		for (int i = 0; i < opear.size(); i++) {
+			cout << opear[i] << "\n";
+		}
+	}
+}
