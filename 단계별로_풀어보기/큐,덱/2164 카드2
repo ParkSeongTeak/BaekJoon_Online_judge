@@ -1,0 +1,33 @@
+	#include<iostream>
+#include<queue>
+#include<string>
+#include<vector>
+using namespace std;
+
+queue<int> arr;
+
+int main() {
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	
+	int n;
+	cin >> n;
+	if (n == 1) arr.push(n);
+	else
+	{
+		for (int i = 1; i <= n; i++) {
+			arr.push(i);
+		}
+		
+		while (1) {
+			arr.pop();
+			if (arr.size() == 1) break;
+			arr.push(arr.front());
+			arr.pop();
+		}
+	}
+	cout << arr.front();
+	
+}
