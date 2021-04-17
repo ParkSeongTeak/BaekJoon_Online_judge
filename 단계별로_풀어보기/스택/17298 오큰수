@@ -15,7 +15,7 @@ int main() {
 	cin.tie(NULL);
 	cout.tie(NULL);
 
-	int n, tmp, idx = 0 ,tmpidx;
+	int n, tmp, idx = 0;
 	cin >> n;
 
 	//0
