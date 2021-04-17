@@ -1,0 +1,61 @@
+#include<iostream>
+#include<queue>
+#include<string>
+#include<vector>
+using namespace std;
+
+queue<int> arr;
+string func[6]{
+	"push",
+	"pop",
+	"size",
+	"empty",
+	"front",
+	"back"
+};
+int main() {
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int n,idx=0;
+	string str;
+	cin >> n;
+	for (int i = 0; i < n; i++) {
+		cin >> str;
+		for (int i = 0; i < 6; i++) if (func[i] == str)idx = i;
+		switch (idx)
+		{
+		case 0:
+			int tmp;
+			cin >> tmp;
+			arr.push(tmp);
+			break;
+		case 1:
+			if(arr.empty()) cout << -1 << "\n";
+			else {
+				cout << arr.front() << "\n";
+				arr.pop();
+			}
+			break;
+		case 2:
+			cout << arr.size() << "\n";
+			break;
+		case 3:
+			cout << arr.empty() << "\n";
+			break;
+		case 4:
+			if (arr.empty()) cout << -1 << "\n";
+			else cout << arr.front() << "\n";
+			break;
+		case 5:
+			if (arr.empty()) cout << -1 << "\n";
+			else cout << arr.back() << "\n";
+			break;
+		
+		default:
+			break;
+		}
+	}
+}
