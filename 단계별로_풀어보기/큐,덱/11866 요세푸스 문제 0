@@ -1,0 +1,37 @@
+#include<iostream>
+#include<queue>
+#include<string>
+#include<vector>
+using namespace std;
+
+queue<int> arr;
+vector<int> ans;
+
+int main() {
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	
+	int N, K;
+	cin >> N >> K;
+
+	for (int i = 1; i <= N; i++) {
+		arr.push(i);
+	}
+	while (!arr.empty()) {
+		for (int i = 0; i < K - 1; i++) {
+			arr.push(arr.front());
+			arr.pop();
+		}
+		ans.push_back(arr.front());
+		arr.pop();
+		
+	}
+	cout << "<";
+	for (int i = 0; i < ans.size()-1; i++) {
+		cout << ans[i]<<", ";
+	}
+
+	cout << ans[ans.size() - 1] << ">";
+}
