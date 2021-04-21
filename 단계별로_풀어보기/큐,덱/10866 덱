@@ -1,0 +1,111 @@
+#include<iostream>
+#include<deque>
+#include<string>
+#include<vector>
+using namespace std;
+
+
+int main() {
+	
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	
+	deque<int> Dq;
+
+	string DqFunction[8]{
+		"push_front",
+		"push_back",
+		"pop_front",
+		"pop_back",
+		"size",
+		"empty",
+		"front",
+		"back",
+	};
+
+	int n;
+	cin >> n;
+
+	for (int i = 0; i < n;i++) {
+		string str;
+		int num;
+		int tmp;
+		
+		cin >> str;
+		for (int i = 0; i < 8; i++) {
+			if (DqFunction[i] == str) {
+				num = i;
+				break;
+			}
+		}
+
+		switch (num)
+		{
+		case 0:
+
+			cin >> tmp;
+			Dq.push_front(tmp);
+			break;
+
+		case 1:
+			
+			cin >> tmp;
+			Dq.push_back(tmp);
+			break;
+
+		case 2:
+			if (!Dq.empty()) {
+				cout << Dq.front() << "\n";
+				Dq.pop_front();
+			}
+			else
+				cout << -1 << "\n";
+			break;
+
+		case 3:
+			if (!Dq.empty()) {
+				cout << Dq.back() << "\n";
+				Dq.pop_back();
+			}
+			else
+				cout << -1 << "\n";
+			break;
+
+		case 4:
+			cout << Dq.size()<<"\n";
+			break;
+
+		case 5:
+			if (!Dq.empty()) {
+				cout << 0 << "\n";
+			}
+			else
+				cout << 1 << "\n";
+
+			break;
+
+		case 6:
+			if (!Dq.empty()) {
+				cout << Dq.front() << "\n";
+			}
+			else
+				cout << -1 << "\n";
+			break;
+
+		case 7:
+			if (!Dq.empty()) {
+				cout << Dq.back() << "\n";
+			}
+			 else
+				cout << -1 << "\n";
+			break;
+
+		default:
+			cout << "error";
+			break;
+		}
+
+	}
+
+}
