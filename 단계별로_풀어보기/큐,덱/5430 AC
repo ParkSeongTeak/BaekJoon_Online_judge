@@ -1,0 +1,102 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<deque>
+#include<string>
+#include <cstring>
+#include<vector>
+#include <sstream>
+using namespace std;
+
+deque<string> split(string s, string divid) {            //s="123-456+789" divid ="+-"   ->   v = {"123","456","789"}
+	deque<string> v;
+	char* c = strtok((char*)s.c_str(), divid.c_str());
+	while (c) {
+		v.push_back(c);
+		c = strtok(NULL, divid.c_str());
+
+	}
+	return v;
+}
+
+void D(bool front,deque<int> *num , bool *error) {
+	if (num->empty()) {
+		*error = true;
+	}
+	else {
+		if (front) {
+			num->pop_front();
+		}
+		else {
+			num->pop_back();
+		}
+	}
+}
+
+int main() {
+	
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	
+	int T;
+	cin >> T;
+	for (int i = 0; i < T; i++) {
+		int arrSize;
+		bool front = true,error = false;
+		string function;
+		string arr;
+		deque<string> strnum;
+		deque<int> num;
+		
+		cin >> function >> arrSize >> arr;
+		strnum = split(arr, "[,]");
+		
+		while(!strnum.empty()){
+			int tmp = 0;
+			stringstream ssint(strnum.front());
+			ssint >> tmp;
+			num.push_back(tmp);
+			strnum.pop_front();
+		}
+		
+
+		for (int j = 0; j < function.size();j++) {
+			switch (function[j])
+			{
+			case 'R':
+				front = !front;
+				break;
+			case 'D': 
+				D(front, &num, &error);
+				break;
+			}
+		}
+		if (!error) {
+			cout << "[";
+			if (front) {
+				while (num.size() > 1) {
+					cout << num.front()<<",";
+					num.pop_front();
+				}
+				if (!num.empty()) cout << num.back();
+			}
+			else {
+				while (num.size() > 1) {
+					cout << num.back() << ",";
+					num.pop_back();
+				}
+				if (!num.empty()) cout << num.front();
+
+			}
+			cout << "]"<<"\n";
+
+		}
+		else {
+			cout << "error" << "\n";
+		}
+
+
+	}
+
+	
+}
