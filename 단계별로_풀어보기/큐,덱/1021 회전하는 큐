@@ -1,0 +1,42 @@
+#include<iostream>
+#include<deque>
+
+using namespace std;
+
+
+int main() {
+	
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	
+	int size, delNum, idx = 1 ,ans = 0;
+	cin >> size >> delNum;
+	deque<int> arr;
+	deque<int> del;
+
+	for (int i = 1; i <= size; i++) arr.push_back(i);
+	for (int i = 0; i < delNum; i++) {
+		int tmp;
+		cin >> tmp;
+		del.push_back(tmp);
+	}
+	for (int i = 0; i < delNum; i++) {
+		int cnt = 0;
+		
+		while (arr.front() != del.front()) {
+			cnt += 1;
+			arr.push_back(arr.front());
+			arr.pop_front();
+		}
+
+		if (cnt > arr.size() - cnt)
+			cnt = arr.size() - cnt;
+		ans += cnt;
+
+		arr.pop_front();
+		del.pop_front();
+	}
+
+	cout << ans;
+}
