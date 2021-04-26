@@ -1,0 +1,105 @@
+#define MAXNUM 2187 
+
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+
+void marge(int map[][MAXNUM], int N, int Yidx, int Xidx, int *Min, int *Zero, int *Plus ) {
+	bool same[3][3] = { {true, true, true}, {true, true, true}, {true, true, true} };
+	if (N == 1) {
+		if (map[Yidx][Xidx] == -1) {
+			*Min += 1;
+		}
+
+		else if (map[Yidx][Xidx] == 0) {
+			*Zero += 1;
+		}
+
+		else {
+			*Plus += 1;
+		}
+		return;
+	}
+	else {
+		for (int dy = 0; dy < 3; dy++) {			//제 N사분면
+			for (int dx = 0; dx < 3; dx++) {
+				int start = map[Yidx + dy * N / 3][Xidx + dx * N / 3];	//제 N사분면 첫 값
+
+				for (int Y = Yidx + dy * (N / 3); Y < Yidx + (dy + 1) * (N / 3); Y++) {
+					for (int X = Xidx + dx * (N / 3); X < Xidx + (dx + 1) * (N / 3); X++) {
+						if (start != map[Y][X]) {
+							same[dy][dx] = false;
+							break;
+							break;
+						}
+					}
+				}
+				if (!same[dy][dx])
+					marge(map, N / 3, Yidx + dy * N / 3, Xidx + dx * N / 3, Min, Zero, Plus);//int map[][128], int N,int Yidx,int Xidx,int *W, int *B
+				else {
+					if (start == -1) {
+						*Min += 1;
+
+					}
+					else if (start == 0) {
+						*Zero += 1;
+
+					}
+					else {
+						*Plus += 1;
+
+					}
+
+
+				}
+			}
+		}
+
+
+	}
+
+
+}
+int map[MAXNUM][MAXNUM];
+int main() {
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+
+	int N;
+	cin >> N;
+	
+	int Min = 0, Zero = 0, Plus = 0;
+	bool one = true;
+
+	for (int y = 0; y < N; y++) {
+		for (int x = 0; x < N; x++) {
+			cin >> map[y][x];
+		}
+	}
+	int start = map[0][0];
+	for (int y = 0; y < N; y++) {
+		for (int x = 0; x < N; x++) {
+			if (start != map[y][x]) {
+				one = false;
+				break;
+				break;
+			}
+		}
+	}
+	if (one) {
+		if (start == -1)
+			Min += 1;
+		else if (start == 0)
+			Zero += 1;
+		else
+			Plus += 1;
+	}
+	else
+		marge(map, N, 0, 0, &Min, &Zero, &Plus);
+	cout << Min << "\n" << Zero<< "\n" << Plus;
+}
