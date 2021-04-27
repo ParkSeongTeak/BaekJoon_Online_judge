@@ -1,0 +1,69 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+
+vector<vector<int>> processionMultiply(vector<vector<int>> map1, vector<vector<int>> map2) {
+	vector<vector<int>> ans;
+	for (int i = 0; i < map1.size(); i++) {
+		vector<int>tmp;
+		for (int j = 0; j < map2[0].size(); j++) {
+			int ansnum = 0;
+			for (int p = 0; p < map2.size(); p++) {
+				ansnum += map1[i][p] * map2[p][j];
+			}
+			tmp.push_back(ansnum);
+		}
+		ans.push_back(tmp);
+	}
+	return ans;
+}
+
+int main() {
+	
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int N, M;
+	vector<vector<int>> map1;
+	vector<vector<int>> map2;
+	vector<vector<int>>ans;
+
+	cin >> N >> M;
+	
+	for (int n = 0; n < N; n++) {
+		vector<int>tmp;
+		int num;
+		for (int m = 0; m < M; m++) {
+			cin >> num;
+			tmp.push_back(num);
+		}
+		map1.push_back(tmp);
+	}
+
+	cin >> N >> M;
+	for (int n = 0; n < N; n++) {
+		vector<int>tmp;
+		int num;
+		for (int m = 0; m < M; m++) {
+			cin >> num;
+			tmp.push_back(num);
+		}
+		map2.push_back(tmp);
+	}
+	
+	if (map1[0].size() == map2.size())
+		ans = processionMultiply(map1, map2);
+	else
+		ans = processionMultiply(map2, map1);
+
+	for (int i = 0; i < ans.size(); i++) {
+		for (int j = 0; j < ans[i].size(); j++) {
+			cout << ans[i][j] << " ";
+		}
+		cout << "\n";
+	}
+
+}
