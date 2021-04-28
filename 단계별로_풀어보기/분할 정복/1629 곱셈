@@ -1,0 +1,46 @@
+#include<iostream>
+#include<algorithm>
+#include<vector>
+#include<string>
+#include<stack>
+using namespace std;
+
+long long sol(int idx, int A, int C) {
+	if (idx == 0) return A % C;
+	else
+		return (sol(idx - 1, A, C) * sol(idx - 1, A, C)) % C;
+
+	
+}
+
+int main() {
+	int A, B, C;
+	int Power2[31];
+	long long ans=1;
+	Power2[0] = 1;
+	int idx = 30;
+
+	for (int i = 1; i < 31; i++) {
+		Power2[i] = Power2[i - 1] * 2;
+	}
+	
+	cin >> A >> B >> C;
+	while (B != 0) {
+		if (Power2[idx] <= B) {
+			ans *= sol(idx, A, C);
+			ans %= C;
+			B -= Power2[idx];
+		}
+		else {
+			idx -= 1;
+			if (idx < 0) {
+				cout << "Debug";
+				break;
+			}
+
+		}
+
+	}
+	cout << ans;
+
+}
