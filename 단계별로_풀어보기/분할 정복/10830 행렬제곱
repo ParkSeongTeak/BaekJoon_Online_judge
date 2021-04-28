@@ -7,44 +7,62 @@ using namespace std;
 
 vector<vector<int>> DP[63];
 
-vector<vector<int>> sol(int idx,vector<vector<int>> map) {
-	if (idx == 0) return DP[0];
-	if(DP[idx].size() == 0) DP[idx] = (sol(idx - 1,map) * sol(idx - 1, map));
-	return DP[idx];
-}
-
-vector<vector<int>> operator *(vector<vector<int>>map1, vector<vector<int>>map2) {
+vector<vector<int>> multiply(vector<vector<int>> map1, vector<vector<int>> map2) {
 	vector<vector<int>> ans;
-
+	
 	for (int i = 0; i < map1.size(); i++) {
-		vector<int> tmp;
+		vector<int>tmp;
 		for (int j = 0; j < map1.size(); j++) {
 			int t = 0;
 			for (int k = 0; k < map1.size(); k++) {
-				t += map1[i][k] * map2[k][j];
+				t += (map1[i][k] * map2[k][j]);
+				t %= 1000;
 			}
+			tmp.push_back(t);
 
 		}
+		ans.push_back(tmp);
 	}
-
+	
+	
 	return ans;
-
+}
+vector<vector<int>> sol(int idx, vector<vector<int>> map) {
+	if (idx == 0) return map;
+	
+	if (DP[idx].size() == 0) DP[idx] = multiply(sol(idx - 1, map),  sol(idx - 1, map));
+	return DP[idx];
 }
 
-vector<vector<int>> multiply()
 int main() {
 	int N;
 	long long B;
 	long long Power2[63];
-	vector<vector<int>>map;
-	Power2[0] = 1;
-	int idx = 30;
+	vector<vector<int>> map;
+	vector<vector<int>> ans;
+	vector<vector<int>> same;
 
+
+	int idx = 62;
+	Power2[0] = 1;
+	
 	for (int i = 1; i < 63; i++) {
 		Power2[i] = Power2[i - 1] * 2;
 	}
+
+	cin >> N>> B;
 	
-	cin >> N >> B;
+	for (int y = 0; y < N; y++) {
+		vector<int>tmp;
+		for (int x = 0; x < N; x++) {
+			if(x==y)
+				tmp.push_back(1);
+			else 
+				tmp.push_back(0);
+
+		}
+		ans.push_back(tmp);
+	}
 	
 	for (int y = 0; y < N; y++) {
 		vector<int>tmp;
@@ -56,10 +74,10 @@ int main() {
 		map.push_back(tmp);
 	}
 
+	
 	while (B != 0) {
 		if (Power2[idx] <= B) {
-			ans *= sol(idx, A, C);
-			ans %= C;
+			ans = multiply(ans,sol(idx, map));
 			B -= Power2[idx];
 		}
 		else {
@@ -72,6 +90,14 @@ int main() {
 		}
 
 	}
-	cout << ans;
 
+	
+	for (int y = 0; y < ans.size(); y++) {
+		for (int x = 0; x < ans.size(); x++) {
+			cout << ans[y][x]<<" ";
+		}
+		cout << "\n";
+	}
+
+	
 }
