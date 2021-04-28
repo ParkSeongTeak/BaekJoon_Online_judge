@@ -5,11 +5,13 @@
 #include<stack>
 using namespace std;
 
-long long sol(int idx, int A, int C) {
-	if (idx == 0) return A % C;
-	else
-		return (sol(idx - 1, A, C) * sol(idx - 1, A, C)) % C;
+long long DP[31];
 
+long long sol(int idx, int A, int C) {
+	if (idx == 0) return DP[0];
+	if(DP[idx] == 0) DP[idx] = (sol(idx - 1, A, C) * sol(idx - 1, A, C)) % C;
+	return DP[idx];
+	
 	
 }
 
@@ -25,6 +27,7 @@ int main() {
 	}
 	
 	cin >> A >> B >> C;
+	DP[0] = A % C;
 	while (B != 0) {
 		if (Power2[idx] <= B) {
 			ans *= sol(idx, A, C);
