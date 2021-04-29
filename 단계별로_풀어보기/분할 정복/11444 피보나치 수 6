@@ -1,0 +1,65 @@
+#include<iostream>
+#include<algorithm>
+#include<vector>
+#include<string>
+
+using namespace std;
+
+vector<long long>idx;
+vector<long long> Fn;
+//vector<long long> FnMin1;
+
+long long fivonacci(long long N) {
+	if (N < 10) {
+		if (N < 5) {
+			if (N == 0) return 0;
+			if (N == 1) return 1;
+			if (N == 2) return 1;
+			if (N == 3) return 2;
+			if (N == 4) return 3;
+		}
+		else {
+			if (N == 5) return 5;
+			if (N == 6) return 8;
+			if (N == 7) return 13;
+			if (N == 8) return 21;
+			if (N == 9) return 34;
+		}
+	}
+	long long fn;
+
+	bool getnum = false;
+	for (int i = 0; i < idx.size();i++) {
+		if (idx[i] == N) {			
+			fn = Fn[i]; 
+			getnum = true;
+		}
+	}
+	if (getnum) return fn;
+
+
+	if (N % 2 == 0) {
+		
+		Fn.push_back((fivonacci(N / 2)*(fivonacci(N / 2) + 2 * fivonacci(N / 2 - 1))) % 1000000007);
+		idx.push_back(N);
+		return Fn[Fn.size()-1];
+	}
+	else {
+		
+		Fn.push_back((fivonacci((N + 1) / 2) * fivonacci((N + 1) / 2) + fivonacci((N - 1) / 2) *fivonacci((N - 1) / 2)) % 1000000007);
+		idx.push_back(N);
+		return Fn[Fn.size() - 1];
+	}
+}
+
+
+
+
+int main() {
+	long long N;
+	
+	cin >> N;
+	
+	cout << fivonacci(N);
+
+}
