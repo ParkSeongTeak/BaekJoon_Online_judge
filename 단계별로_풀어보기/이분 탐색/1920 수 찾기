@@ -1,0 +1,75 @@
+#include<iostream>
+#include<algorithm>
+#include<vector>
+#include<string>
+using namespace std;
+
+int arr[100000];
+
+void marge(int begin,int end, int target,bool *get) {
+	
+	if (begin == end) {
+		if (arr[begin] == target) {
+			*get = true;
+			return;
+		}
+		else
+			return;
+	}
+
+	//if (!Aarr.empty()) {
+		int mid = (begin+end) / 2;
+
+		if (arr[mid] == target) {
+			*get = true;
+			return;
+		}
+		else {
+			if (arr[mid] > target) {
+				
+				marge(begin,mid, target, get);
+			}
+			else {
+				marge(mid+1, end, target, get);
+			}
+		}
+	//}
+
+}
+
+
+int main() {
+	
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	//vector<int> Aarr;
+	vector<int> target;
+	int N,M;
+	cin >> N;
+	for (int i = 0; i < N; i++) {
+		cin >> arr[i];
+	}
+	
+	cin >> M;
+	for (int i = 0; i < M; i++) {
+		int tmp;
+		cin >> tmp;
+		target.push_back(tmp);
+	}
+
+
+	sort(arr,arr+N);
+	
+	for (int i = 0; i < M; i++) {
+		bool get = false;
+		if(target[i]>=arr[0] && target[i]<=arr[N-1])
+			marge(0,N-1,target[i],&get);
+		if (get)
+			cout << 1 << "\n";
+		else
+			cout << 0 << "\n";
+
+	}
+}
