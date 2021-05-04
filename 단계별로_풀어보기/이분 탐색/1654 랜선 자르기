@@ -1,0 +1,36 @@
+#include<iostream>
+#include<algorithm>
+using namespace std;
+
+int length[100000];
+
+bool possible(int leng,int N,int K) {
+	int cnt = 0;
+	for (int i = 0; i < K; i++) {
+		cnt += length[i] / leng;
+	}
+	if (cnt >= N)
+		return true;
+	else
+		return false;
+}
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int K,N;
+	cin >> K >> N;
+	int high = 0, low =1;	
+	for (int i = 0; i < K; i++) {
+		cin >> length[i];
+		high = max(high, length[i]);
+	}
+	sort(length, length + K);
+	while (high >= low) {
+		int mid = (high + low) / 2;
+	}
+
+
+}
