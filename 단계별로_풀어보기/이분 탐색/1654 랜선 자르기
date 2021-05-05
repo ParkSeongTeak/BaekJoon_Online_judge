@@ -4,6 +4,7 @@ using namespace std;
 
 int length[100000];
 
+
 bool possible(int leng,int N,int K) {
 	int cnt = 0;
 	for (int i = 0; i < K; i++) {
