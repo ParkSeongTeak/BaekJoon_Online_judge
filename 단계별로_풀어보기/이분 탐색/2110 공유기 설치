@@ -1,0 +1,75 @@
+/*
+와이파이 설치 
+N게 집이 수직선 위 
+C개 공유기 가장 인접한 공유기가 최대로 만드는법
+C개 공유기 N개 집에 적당히 설치 가장 인접한 공유기 최대거리 구하는 프로그램
+*/
+#define MAX 200001
+#include<iostream>
+#include<algorithm>
+#include<vector>
+using namespace std;
+
+int arr[MAX];
+
+bool possible(int N, int dist,int C) {
+	int cnt = 1;
+	int idx = 1;
+	int tmp = arr[0];
+	
+	bool able = false;
+	while (idx < N) {
+		if (arr[idx] - tmp >= dist) {
+			cnt++;
+			tmp = arr[idx];
+		}
+		else {
+			idx++;
+		}
+
+		if (cnt >= C) {
+			able = true;
+			break;
+		}
+	}
+
+	return able;
+}
+
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int N, C, begin = 1000000001,end = 0;
+	cin >> N >> C;
+	for (int i = 0; i < N; i++) {
+		cin >> arr[i];
+		end = max(end, arr[i]);
+		begin = min(begin, arr[i]);
+	}
+
+	sort(arr, arr + N);
+
+	int Short = 1;
+	int Long = end - begin;
+
+	int ans;
+	//찾는 값은 begin - end 보다는 짧거나 같을것
+	while (Short <= Long) {
+		int mid = (Long + Short) / 2;
+		if (possible(N, mid,C)) {
+			Short = mid+1;
+			ans = mid;
+			
+
+		}
+		else {
+			Long = mid - 1;
+			
+		}
+	}
+	cout << ans;
+
+}
