@@ -1,62 +1,61 @@
-/*
-N*N배열 A
-A[i][j] = i*j
-B[N*N] 오름차순 정렬 
-B[k]구하기
-*/
 #define DIV 1000000007
 #include<iostream>
 #include<algorithm>
 #include<vector>
 using namespace std;
 
-
-vector<int> idx;
-vector<long long> num;
-
 long long K, NMinsK;
 
-long long Fact(int N,int k,int NmK) {
+int Parr[50];
+int DP[50];
+int idx = 0;
+long long Fact(int N, long long k, long long NmK) {
 	if (N == 1)return 1;
 
 	if (N == K) {
-		K = N * Fact(N - 1,k,NmK) % DIV;
+		K = (N * Fact(N - 1, k, NmK) )% DIV;
 		return K;
 	}
 	if (N == NmK) {
-		NMinsK = N * Fact(N - 1, k, NmK) % DIV;
+		NMinsK =( N * Fact(N - 1, k, NmK) )% DIV;
 		return NMinsK;
 	}
 
-	return N * Fact(N - 1, k, NmK) % DIV;
+	return (N * Fact(N - 1, k, NmK) )% DIV;
 }
 
 
 long long power(int N, int p) {
 	if (p == 0)return 1;
 	
-	for (int i = 0; i < idx.size(); i++) {
-		if (p == idx[i])
-			return num[i];	
+	for (int i = 0; i < 50; i++) {
+		if (Parr[i] == p) {
+			return DP[i];
+		}
+		else if (Parr[i] == 0)
+			break;
 	}
 
-	
-	if (p % 2) {
-		num.push_back(power(N, (p + 1) / 2) * power(N, (p - 1) / 2) % DIV);
-	}
+	if (p % 2 == 1)
+		return (power(N, p - 1)*N) % DIV;
 	else {
-		num.push_back(power(N, p / 2) * power(N, p / 2) % DIV);
+		DP[idx] = ((long long)power(N, p / 2)*power(N, p / 2)) % DIV;
+		Parr[idx] = p;
+		return DP[idx];
 	}
-	idx.push_back(p);
-	return num[num.size() - 1];
+
+
 }
 
 int main() {
-	
-	int N, K;
-	cin >> N >> K;
 
-	//a^(p-1)(mod p) == 1(mod p);
-	//a^(p-2)(mod p) == a^(-1)(mop p);
-	
+	int n;
+	cin >> n >> K;
+	int ans;
+
+	ans = (Fact(n, K, n - K) * power((int)((K*NMinsK) % DIV), DIV - 2)) % DIV;
+	if (ans != 0)
+		cout << ans;
+	else
+		cout << 1;
 }
