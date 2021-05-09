@@ -1,0 +1,56 @@
+#include<iostream>
+#include<algorithm>
+using namespace std;
+
+int tree[1000000];
+
+bool possible(int N,int M,int mid) {
+	long long length = 0;
+
+	for (int i = 0; i < N; i++) {
+		if (tree[i] - mid > 0) {
+			length += tree[i] - mid;
+		}
+		if (length >= M)
+			break;
+	}
+	if (length >= M)
+		return true;
+	else
+		return false;
+}
+
+int main() {
+	
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int N, M;
+	long long ans=-1;
+	cin >> N >> M;
+	
+	long long Highest = 0;
+	long long Shortest = 0;
+	for (int i = 0; i < N; i++) {
+		cin >> tree[i];
+		Highest = max(Highest, (long long)tree[i]);
+	}
+
+	while (Highest >= Shortest) {
+		long long mid =(Highest + Shortest) / 2;
+
+		if (possible(N, M, mid)) {
+			Shortest = mid + 1;
+			if (ans < mid)
+				ans = mid;
+		}
+		else {
+			Highest = mid - 1;
+		}
+
+	}
+
+	cout << ans;
+
+}
