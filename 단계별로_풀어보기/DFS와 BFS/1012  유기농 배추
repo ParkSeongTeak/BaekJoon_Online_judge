@@ -1,0 +1,73 @@
+#include<iostream>
+#include<vector>
+#include<queue>
+#include<string>
+#include<algorithm>
+using namespace std;
+
+int dy[4] = { 1,-1,0 ,0 };
+int dx[4] = { 0, 0, 1 ,-1 };
+
+bool map[50][50];
+bool dfs_check[50][50];
+
+int idx = 0;
+
+
+void DFS(int N, int M, int y, int x, bool near = false) {
+	if (dfs_check[y][x] || map[y][x] == 0) return;
+
+	dfs_check[y][x] = true;
+	if (!near) {
+		idx += 1;
+	}
+
+
+	for (int i = 0; i < 4; i++) {
+		if (y + dy[i] >= 0 && y + dy[i] < N && x + dx[i] >= 0 && x + dx[i] < M) {
+			DFS(N, M, y + dy[i], x + dx[i], true);
+		}
+	}
+
+
+
+}
+
+
+int main() {
+	
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int T, M, N, K;
+	cin >> T;
+
+
+
+	for (int i = 0; i < T; i++) {
+		cin >> M >> N >> K;
+		
+		for (int i = 0; i < K; i++) {
+			int y, x;
+			cin >> x >> y;
+			map[y][x] = true;
+		}
+
+		for (int y = 0; y < N; y++) {
+			for (int x = 0; x < M; x++) {
+				DFS(N, M, y, x);
+			}
+		}
+		
+		cout << idx << "\n";
+		
+		for (int y = 0; y < N; y++) {
+			for (int x = 0; x < M; x++) {
+				map[y][x] = false;
+				dfs_check[y][x] = false;
+			}
+		}
+		idx = 0;
+	}
+}
