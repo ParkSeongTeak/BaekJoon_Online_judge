@@ -1,6 +1,8 @@
 #include<iostream>
 #include<vector>
 #include<queue>
+#include<string>
+#include<algorithm>
 using namespace std;
 
 int dy[4] = { 1,-1,0 ,0 };
@@ -9,11 +11,11 @@ int dx[4] = { 0, 0, 1 ,-1 };
 bool map[26][26];
 bool dfs_check[26][26];
 
-int idx = -1;
+int idx = 0;
 int cnt[625];
 
 
-void DFS(int N,int y = 0,int x = 0, bool near = false) {
+void DFS(int N,int y ,int x , bool near = false) {
 	if (dfs_check[y][x] || map[y][x] == 0) return;
 	
 	dfs_check[y][x] = true;
@@ -25,7 +27,7 @@ void DFS(int N,int y = 0,int x = 0, bool near = false) {
 	
 	for (int i = 0; i < 4; i++) {
 		if (y + dy[i] >= 0 && y + dy[i] < N && x + dx[i] >= 0 && x + dx[i] < N) {
-
+			DFS(N, y + dy[i], x + dx[i], true);
 		}
 	}
 
@@ -38,13 +40,31 @@ int main() {
 	cin.tie(NULL);
 	cout.tie(NULL);
 
+	string str[26];
+
 	int N;
 	cin >> N;
 	for (int y = 0; y < N; y++) {
+		cin >> str[y];
+	}
+	for (int y = 0; y < N; y++) {
 		for (int x = 0; x < N; x++) {
-			cin >> map[y][x];
+			map[y][x] = str[y][x] - '0';
 		}
 	}
-	DFS(N);
-	cout << cnt-1;
+	
+	for (int y = 0; y < N; y++) {
+		for (int x = 0; x < N; x++) {
+			DFS(N,y,x);
+		}
+	}
+	
+	cout << idx << "\n";
+	sort(cnt, cnt + (idx + 1));
+	for (int i = 1; i <= idx;i++) {
+		cout << cnt[i] << "\n";
+	}
+	
+	
+
 }
