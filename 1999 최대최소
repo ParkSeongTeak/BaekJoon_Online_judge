@@ -11,6 +11,8 @@ int main() {
 	cin.tie(NULL);
 	cout.tie(NULL);
 	
+	
+	
 	//int map[250][250];
 	//int ans[250][250];
 	int N, B, K;
