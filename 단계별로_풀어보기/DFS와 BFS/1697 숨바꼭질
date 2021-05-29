@@ -1,0 +1,68 @@
+#define MAX 100000+1
+#include<iostream>
+#include<algorithm>
+#include<queue>
+#include<vector>
+using namespace std;
+
+int map[MAX];
+bool BFS_check[MAX];
+int N, K;
+
+void BFS() {
+
+	int k = K;
+
+	queue<int> Q;
+	Q.push(N);
+	BFS_check[N] = true;
+
+	while (!Q.empty()) {
+		int tmp = Q.front();
+		Q.pop();
+		
+		if (tmp == k) return;
+
+		if (tmp - 1 >= 0 && tmp - 1 < MAX) {
+			if (!BFS_check[tmp - 1]) {
+				map[tmp - 1] = map[tmp] + 1;
+				
+				Q.push(tmp - 1);
+				BFS_check[tmp - 1] = true;
+			}
+		}
+		if (tmp + 1 >= 0 && tmp + 1 < MAX) {
+			if (!BFS_check[tmp + 1]) {
+				map[tmp + 1] = map[tmp] + 1;
+
+				Q.push(tmp + 1);
+				BFS_check[tmp + 1] = true;
+			}
+		}
+		if (2*tmp >= 0 && 2*tmp  < MAX) {
+			if (!BFS_check[2*tmp]) {
+				map[2 * tmp] = map[tmp] + 1;
+
+				Q.push(2*tmp);
+				BFS_check[2*tmp] = true;
+			}
+		}
+
+	}
+
+}
+
+int main() {
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int ans = 0;
+	cin >> N >> K;
+	
+	BFS();
+
+	cout << map[K];
+	
+}
