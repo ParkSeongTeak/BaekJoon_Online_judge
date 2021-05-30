@@ -1,0 +1,72 @@
+#define MAX 1000+1
+#include<iostream>
+#include<algorithm>
+#include<queue>
+#include<vector>
+#include<string>
+using namespace std;
+
+int map[MAX][MAX];
+bool BFS_check[MAX][MAX];
+int N, M;
+bool channel[3] = { true,false,false }; // 처음 , 도착했을때 벽부수기 , 도착 못했을때 벽부수기
+bool finish = false;
+
+void BFS() {
+	int dy[4] = { 0, 0, 1 ,-1 };
+	int dx[4] = { 1, -1, 0 ,0 };
+
+	int n = N;
+	int m = M;
+
+	queue<pair<int,int>> Q;
+	Q.push({ 0,0 });
+	while (!Q.empty()) {
+		int y = Q.front().first;
+		int x = Q.front().second;
+		Q.pop();
+		
+		if (y == n - 1 && x == m - 1) return;
+
+		
+
+
+
+
+
+
+	}
+
+}
+
+int main() {
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int ans = 0;
+	cin >> N >> M;	//N :Y //  M: X
+	
+	for (int y = 0; y < N; y++) {
+		string tmp;
+		cin >> tmp;
+		for (int x = 0; x < M; x++) {
+			map[y][x] = tmp[x] - '0';
+			if (map[y][x] == 1) {
+				map[y][x] = -1;
+			}
+		}
+	}
+
+
+
+	BFS();
+	if (BFS_check[N-1][M-1]) {
+		cout << map[N - 1][M - 1];
+	}
+	else {
+		cout << -1;
+	}
+	
+}
