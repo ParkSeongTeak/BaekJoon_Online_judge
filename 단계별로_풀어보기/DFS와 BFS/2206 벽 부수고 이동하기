@@ -7,7 +7,7 @@
 using namespace std;
 
 int map[MAX][MAX];
-bool BFS_check[MAX][MAX];
+//bool BFS_check[MAX][MAX];
 int N, M;
 bool channel[3] = { true,false,false }; // 처음 , 도착했을때 벽부수기 , 도착 못했을때 벽부수기
 bool finish = false;
@@ -26,9 +26,25 @@ void BFS() {
 		int x = Q.front().second;
 		Q.pop();
 		
-		if (y == n - 1 && x == m - 1) return;
+		if (y == n - 1 && x == m - 1 && map[n-1][m-1] != 0 && channel[0]) return;
 
-		
+		if (channel[0]) {
+			for (int i = 0; i < 4; i++) {
+				if (y + dy[i] >= 0 && y + dy[i] < n && x + dx[i] < m && x + dx[i] >= 0) {
+					if (map[y + dy[i]][x + dx[i] == 0]) {
+						map[y + dy[i]][x + dx[i]] = map[y][x] + 1;
+						Q.push({ y + dy[i] , x + dx[i] });
+
+					}
+				}
+			}
+		}
+		if (channel[1]) {
+
+		}
+		if (channel[2]) {
+
+		}
 
 
 
