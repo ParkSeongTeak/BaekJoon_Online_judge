@@ -1,27 +1,57 @@
-#include<iostream>
-#include<vector>
-#include<algorithm>
-#include<queue>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
 using namespace std;
 
-class procession {
-	int y, x;
-	
-	
-public :
-	int num;
-	procession(int Y = 0, int X = 0,int idx = 0) :y(Y), x(X), num(idx) {};
 
-	bool operator > (procession& other) {
-		return this->x > other.x;
+class procession {
+public:
+	int x, y, num;
+	procession(int Y = 0, int X = 0, int idx = 0) {
+		y = Y;
+		x = X;
+		num = idx;
+	};
+
+
+	bool operator > (const procession &Other) {
+		return this->x > Other.x;
+	}
+	bool operator < (const procession &Other) {
+		return this->x < Other.x;
+	}
+	bool operator == (const procession &Other) {
+		return this->x == Other.x;
+	}
+	void operator = (const procession &Other) {
+		this->x = Other.x;
+		this->y = Other.y;
+		this->num = Other.num;
+
 	}
 
+};
+
+bool Less(procession one, procession another) {
+	return one > another;
+}
+
+class Node {
+public :
+	procession date;
+	Node *prev, *next;
 	
+	Node(int y,int x, int i) {
+		procession tmp(y, x, i);
+		date = tmp;
+		this->prev = this->next = NULL;
+	}
 };
 
 
 int main() {
-	
+
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 	cout.tie(NULL);
@@ -29,23 +59,43 @@ int main() {
 	int N, r, c; //(1,500)
 	//항상 순서대로 곱셈 할 수 있는 크기만 준다. 
 
+
+
 	vector<procession> arr;
 	vector<procession> Forsort;
 	vector<int>table;
-	
+	long long ans = 0;
+
 	cin >> N;
+
 	for (int i = 0; i < N; i++) {
-		int y,x;
+		int y, x;
 		cin >> y >> x;
 		procession tmp(y, x, i);
 		arr.push_back(tmp);
 		Forsort.push_back(tmp);
 	}
-	sort(Forsort.begin(), Forsort.end()- sizeof(procession));
-
-	for (int i = 0; i < Forsort.size(); i++) {
+	sort(Forsort.begin(), Forsort.end() - 1 , Less);
+	
+	for (int i = 0; i < N-1; i++) {
 		table.push_back(Forsort[i].num);
 	}
+	for (int i = 0; i < N-1; i++) {
+		
+		ans += arr[table[i]].y * arr[table[i]].x * arr[table[i] + 1].x;
+		arr[table[i]].x = arr[table[i]+1].x;
+		arr.erase(arr.begin() + table[i] + 1);
+
+	}
+
+	cout << ans;
+	
+	/*for (int i = 0; i < N; i++) {
+		cout << "arr" << i << " " << arr[i].y << " " << arr[i].x << " " << arr[i].num << "\n";
+		cout << "Forsort" << i << " " << Forsort[i].y << " " << Forsort[i].x << " " << Forsort[i].num << "\n";
+
+	}*/
+
 
 
 
