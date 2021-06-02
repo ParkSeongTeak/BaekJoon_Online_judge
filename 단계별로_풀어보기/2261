@@ -2,3 +2,5 @@
 #include<algorithm>
 #include<vector>
 #include<string>
+
+int min()
