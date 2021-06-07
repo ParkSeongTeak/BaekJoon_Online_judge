@@ -1,0 +1,41 @@
+#include<iostream>
+#include<queue>
+#include<algorithm>
+using namespace std;
+
+int N, K;
+bool getANS = false;
+long long ans = 0;
+
+
+void marge(long long small,long long big) {
+	if (small <= big) {
+		long long mid = (small + big) / 2;
+
+		long long tmp = 0;
+		//cout << "small: "<<small<<"   big: "<<big << "\n";
+		for (int i = 1; i <= N; i++) {
+			tmp += min((long long)N*i, mid) / i;
+
+		}
+		
+		if (tmp >= K) {
+			ans = mid;
+			marge(small, mid - 1);
+		}
+		else {
+			marge(mid + 1, big);
+			
+			
+		}
+	}
+
+}
+
+int main() {
+	cin >> N >> K;
+
+	marge(1,(long long)N*N);
+	cout << ans;
+}
+
