@@ -1,0 +1,54 @@
+#include<iostream>
+#include<queue>
+#include<algorithm>
+using namespace std;
+
+
+int main() {
+	
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	
+	
+	priority_queue<int>left;
+	priority_queue<int,vector<int>,greater<int>>right;
+
+	int T;//test case
+	cin >> T;
+
+	
+	for (int i = 0; i < T;i++) {
+		int num;
+		cin >> num;
+		if (left.size() <= right.size()) {
+			if (!right.empty()) {
+				if (num > right.top()) {
+					int tmp = right.top();
+					right.pop();
+					right.push(num);
+					left.push(tmp);
+				}
+				else {
+					left.push(num);
+				}
+			}
+			else {
+				left.push(num);
+			}
+		}
+		else {
+			if (num < left.top()) {
+				int tmp = left.top();
+				left.pop();
+				left.push(num);
+				right.push(tmp);
+			}
+			else {
+				right.push(num);
+			}
+		}
+		cout << left.top() << "\n";
+	}
+}
+
