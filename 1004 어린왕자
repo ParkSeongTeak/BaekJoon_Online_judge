@@ -1,0 +1,39 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+
+class plant {
+public:
+	int X, Y, R;
+	bool start = false;
+	bool end = false;
+	bool MustPass() {
+		return start ^ end;
+	}
+	plant(int x, int y, int r) :X(x), Y(y) {
+		R = r * r;
+	}
+};
+
+int main() {
+	
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int T;
+	cin >> T;
+	
+	for (int i = 0; i < T; i++) {
+		int y1, x1, y2, x2,num;
+		cin >> x1 >> y1 >> x2 >> y2;
+		cin >> num;
+		for (int i = 0; i < num; i++) {
+			int cx, cy, r;
+			cin >> cx >> cy >> r;
+
+
+		}
+	}
+	
+}
