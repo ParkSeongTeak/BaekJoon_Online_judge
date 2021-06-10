@@ -16,24 +16,43 @@ public:
 };
 
 int main() {
-	
+
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 	cout.tie(NULL);
 
 	int T;
 	cin >> T;
-	
+
 	for (int i = 0; i < T; i++) {
-		int y1, x1, y2, x2,num;
+		int y1, x1, y2, x2, num,ans = 0;
 		cin >> x1 >> y1 >> x2 >> y2;
 		cin >> num;
 		for (int i = 0; i < num; i++) {
 			int cx, cy, r;
 			cin >> cx >> cy >> r;
-
-
+			plant tmp(cx, cy, r);
+		
+			int dx = x1 - cx;
+			int dy = y1 - cy;
+			
+			if (dx * dx + dy * dy <= tmp.R) {
+				tmp.start = true;
+			}
+			
+			dx = x2 - cx;
+			dy = y2 - cy;
+			if (dx * dx + dy * dy <= tmp.R) {
+				tmp.end = true;
+			}
+			if (tmp.MustPass())
+				ans += 1;
+			
 		}
+
+		cout << ans << "\n";
 	}
-	
+
 }
+
+
