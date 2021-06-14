@@ -1,0 +1,72 @@
+#include<iostream>
+#include<vector>
+#include<queue>
+#define INF 1987654321
+using namespace std;
+
+struct Node {
+	int w, idx;
+	bool operator < (const Node &other) const{
+		return w > other.w;
+	}
+};
+
+
+vector<Node>graph[20001];
+
+int Dijkstra(int V,int v1,int v2) {
+	vector<int> length(V + 1, INF);
+	length[v1] = 0;
+	priority_queue<Node> pq;
+	pq.push({ 0,v1 });
+	while (!pq.empty()) {
+		Node tmp = pq.top();
+		pq.pop();
+		if (tmp.w > length[tmp.idx])
+			continue;
+
+		for (const auto &next : graph[tmp.idx]) {
+			if (tmp.w + next.w < length[next.idx]) {
+				length[next.idx] = tmp.w + next.w;
+				pq.push({ tmp.w + next.w,next.idx });
+			}
+		}
+	}
+
+	 
+	return length[v2];
+
+}
+
+
+
+int main() {
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int V, E, K,v1,v2;
+	cin >> V >> E;
+
+	while (E--) {
+		int a, b, c;
+		cin >> a >> b >> c;
+		graph[a].push_back({ c,b });
+		graph[b].push_back({ c,a });
+	}
+	
+	cin >> v1 >> v2;
+	long long startToEnd = (long long)Dijkstra(V, 1, v1) + (long long)Dijkstra(V, v2, V);
+
+	startToEnd = min(startToEnd,(long long)Dijkstra(V, 1, v2) + (long long)Dijkstra(V, v1, V));
+	
+	long long ans = startToEnd + (long long)Dijkstra(V, v1, v2);
+
+	if (ans >= INF) {
+		cout << -1;
+	}
+	else {
+		cout << ans;
+	}
+}
