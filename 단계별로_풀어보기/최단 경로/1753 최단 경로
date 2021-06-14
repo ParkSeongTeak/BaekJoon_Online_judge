@@ -1,51 +1,58 @@
 #include<iostream>
 #include<vector>
 #include<queue>
+#define INF 987654321
 using namespace std;
 
-int map[20000+1][20000+1];
-int V, E, K;	//V 정점 갯수/ E 간선 갯수/ K 시작 정점 번호
-
-void bfs() {
-	int v, e, k;
-	v = V;
-	e = E;
-	k = K;
-
-	queue<int> Q;
-	Q.push(k);
-	
-	while (!Q.empty()) {
-		
-		int tmp = Q.front();	//	그래프의 정점
-		Q.pop();
-
-		for (int i = 0; i <= V; i++) {
-			if (map[tmp][i] != 0) {
-
-			}
-		}
-
+struct Node {
+	int w, idx;
+	bool operator < (const Node &other) const{
+		return w > other.w;
 	}
+};
 
-}
 
+vector<Node>graph[20001];
 
-int main() {	// V: 정점의 갯수 // E 간선의 갯수	V[1,20,000] E[1,300,000]
-	
+int main() {
+
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 	cout.tie(NULL);
-	
-	
+
+	int V, E, K;
 	cin >> V >> E >> K;
 
-	//u 에서 v로 가는 가중치 w;
-	for (int i = 0; i < E; i++) {
+	while (E--) {
 		int u, v, w;
 		cin >> u >> v >> w;
-		map[u][v] = w;
+		graph[u].push_back({ w,v });
 	}
-	bfs();
+
+	vector<int> length(V + 1, INF);
+	length[K] = 0;
+	priority_queue<Node> pq;
+	pq.push({ 0,K });
+	while (!pq.empty()) {
+		Node tmp = pq.top();
+		pq.pop();
+		if (tmp.w > length[tmp.idx])
+			continue;
+
+		for (const auto &next : graph[tmp.idx]) {
+			if (tmp.w + next.w < length[next.idx]) {
+				length[next.idx] = tmp.w + next.w;
+				pq.push({ tmp.w + next.w,next.idx });
+			}
+		}
+	}
+
+	for (int i = 1; i < length.size(); i++) {
+		if (length[i] == INF)
+			cout << "INF" << "\n";
+		else
+			cout << length[i] << "\n";
+	}
+
 
 }
