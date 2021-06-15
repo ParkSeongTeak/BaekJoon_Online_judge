@@ -1,62 +1,69 @@
 #include<iostream>
 #include<vector>
-#include<algorithm>
 #include<queue>
+#include<algorithm>
 #define INF 987654321
 using namespace std;
 
-
-int s;
-
 struct Node {
 	int w, idx;
-	vector<int> spots;
-	bool operator < (const Node &Other)const {
-		return w > Other.w;
-	}
-
-	Node(int w, int idx) :w(w), idx(idx) {
-		spots.push_back(idx);
-	}
-
-};
-
-struct way {
-	int length;
-	vector<int> spots;
-
-	way() {
-		spots.push_back(s);
-		length = INF;
+	bool operator < (const Node &other) const {
+		return w > other.w;
 	}
 };
 
-vector<int> operator + (const vector<int> &One, const vector<int> &Another);
 
-vector<Node> graph[20001];
+vector<Node>graph[2005];
 
-bool Dijkstra(int n, int v1, int v2, int g, int h);
+int Dijkstra(int V, int v1, int v2) {
+	vector<int> length(V + 1, INF);
+	length[v1] = 0;
+	priority_queue<Node> pq;
+	pq.push({ 0,v1 });
+	while (!pq.empty()) {
+		Node tmp = pq.top();
+		pq.pop();
+		if (tmp.w > length[tmp.idx])
+			continue;
+
+		for (const auto &next : graph[tmp.idx]) {
+			if (tmp.w + next.w < length[next.idx]) {
+				length[next.idx] = tmp.w + next.w;
+				pq.push({ tmp.w + next.w,next.idx });
+			}
+		}
+	}
+
+	return length[v2];
+
+}
+
 
 int main() {
-	
+
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 	cout.tie(NULL);
 
+	
+
 	int T;
 	cin >> T;
-	for (int i = 0; i < T;i++) {
+	for (int i = 0; i < T; i++) {
+		int GH;
 		int n, m, t;
 		cin >> n >> m >> t;
-		int g, h;
+		int s, g, h;
 		cin >> s >> g >> h;
 		for (int i = 0; i < m; i++) {
 			int a, b, d;
 			cin >> a >> b >> d;
-			Node node1(d, b);
-			Node node2(d, a);
-			graph[a].push_back(node1);
-			graph[b].push_back(node2);
+			graph[a].push_back({d,b});
+			graph[b].push_back({d,a});
+
+			if ((a == g && b == h) || (a == h && b == g)) {
+				GH = d;
+			}
 		}
 		vector<int>test;
 		for (int i = 0; i < t; i++) {
@@ -65,14 +72,20 @@ int main() {
 			test.push_back(a);
 		}
 		sort(test.begin(), test.end());
-		
+
 		for (const auto &next : test) {
-			if (Dijkstra(n+1, s, next, g, h))
+
+			int SToNext = Dijkstra(n , s, next);
+
+			if (GH + Dijkstra(n , g, s) + Dijkstra(n , h, next) == SToNext) {
 				cout << next << " ";
+			}
+			else if (GH + Dijkstra(n , h, s) + Dijkstra(n , g, next) == SToNext) {
+				cout << next << " ";
+			}
 		}
 
-
-		for (int i = 0; i <= n; i++) {
+		for (int i = 0; i <= n+1; i++) {
 			graph[i].clear();
 		}
 
@@ -81,126 +94,3 @@ int main() {
 	}
 
 }
-
-vector<int> operator + (const vector<int> &One, const vector<int> &Another) {
-	vector<int>tmp = One;
-
-	for (int i = 0; i < Another.size(); i++) {
-		tmp.push_back(Another[i]);
-	}
-	return tmp;
-
-}
-
-bool Dijkstra(int n, int v1, int v2, int g, int h) {
-
-	vector<way> Lng(n + 1);
-	Lng[v1].length = 0;
-	priority_queue<Node> pq;
-
-	pq.push({ 0,v1 });
-
-	bool V1EquGH = false;// 시작점이 g,h일때
-	if (v1 == g || v1 == h) V1EquGH = true;
-	
-	while (!pq.empty()) {
-		Node tmp = pq.top();
-		pq.pop();
-		if (tmp.w > Lng[tmp.idx].length)
-			continue;
-
-		for (const auto &next : graph[tmp.idx]) {
-			if (tmp.w + next.w <= Lng[next.idx].length) {
-				
-
-				if (!V1EquGH) {
-
-					if (tmp.w + next.w != Lng[next.idx].length) {
-						Lng[next.idx].length = tmp.w + next.w;
-						Lng[next.idx].spots = tmp.spots + next.spots;
-
-						Node Next(tmp.w + next.w, next.idx);
-						Next.spots = Lng[next.idx].spots;
-
-						pq.push(Next);
-					}
-					else {	//tmp.w + next.w == Lng[next.idx].length
-						if ((tmp.idx == g && next.idx == h) || (tmp.idx == h && next.idx == g)) {
-							Lng[next.idx].length = tmp.w + next.w;
-							Lng[next.idx].spots = tmp.spots + next.spots;
-
-							Node Next(tmp.w + next.w, next.idx);
-							Next.spots = Lng[next.idx].spots;
-
-							pq.push(Next);
-						}
-
-					}
-				}
-				else{
-					if (next.idx == g || next.idx == h) {
-						Lng[next.idx].length = tmp.w + next.w;
-						Lng[next.idx].spots = tmp.spots + next.spots;
-
-						Node Next(tmp.w + next.w, next.idx);
-						Next.spots = Lng[next.idx].spots;
-
-						pq.push(Next);
-						V1EquGH = false;
-					}
-				}
-
-				
-			}
-		}
-	}
-
-	bool G = false;
-	bool H = false;
-	
-	/*
-	for (const auto &next : Lng[v2].spots) {
-		cout << next << " ";
-	}
-	cout << "\n";
-	*/
-
-	bool ON = false;
-	for (const auto &next : Lng[v2].spots) {
-		
-		if (ON) {
-			if (!G) {
-				if (next == g) return true;
-			}
-			else {
-				if (next == h) return true;
-			}
-			return false;
-		}
-		else {
-			if (next == g || next == h) {
-				ON = true;
-				if (next == g)
-					G = true;
-				else
-					H = true;
-			}
-		}
-		
-		
-		/*
-		if (next == g) G = true;
-		if (next == h) H = true;
-
-		if (G || H) {
-			if (G) {
-				if (next == h)
-					return true;
-			}
-			if(H){
-				if()
-		*/
-	}
-	return false;
-}
-
