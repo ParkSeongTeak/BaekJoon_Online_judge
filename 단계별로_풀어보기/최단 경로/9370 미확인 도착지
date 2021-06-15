@@ -1,0 +1,206 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<queue>
+#define INF 987654321
+using namespace std;
+
+
+int s;
+
+struct Node {
+	int w, idx;
+	vector<int> spots;
+	bool operator < (const Node &Other)const {
+		return w > Other.w;
+	}
+
+	Node(int w, int idx) :w(w), idx(idx) {
+		spots.push_back(idx);
+	}
+
+};
+
+struct way {
+	int length;
+	vector<int> spots;
+
+	way() {
+		spots.push_back(s);
+		length = INF;
+	}
+};
+
+vector<int> operator + (const vector<int> &One, const vector<int> &Another);
+
+vector<Node> graph[20001];
+
+bool Dijkstra(int n, int v1, int v2, int g, int h);
+
+int main() {
+	
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int T;
+	cin >> T;
+	for (int i = 0; i < T;i++) {
+		int n, m, t;
+		cin >> n >> m >> t;
+		int g, h;
+		cin >> s >> g >> h;
+		for (int i = 0; i < m; i++) {
+			int a, b, d;
+			cin >> a >> b >> d;
+			Node node1(d, b);
+			Node node2(d, a);
+			graph[a].push_back(node1);
+			graph[b].push_back(node2);
+		}
+		vector<int>test;
+		for (int i = 0; i < t; i++) {
+			int a;
+			cin >> a;
+			test.push_back(a);
+		}
+		sort(test.begin(), test.end());
+		
+		for (const auto &next : test) {
+			if (Dijkstra(n+1, s, next, g, h))
+				cout << next << " ";
+		}
+
+
+		for (int i = 0; i <= n; i++) {
+			graph[i].clear();
+		}
+
+
+		cout << "\n";
+	}
+
+}
+
+vector<int> operator + (const vector<int> &One, const vector<int> &Another) {
+	vector<int>tmp = One;
+
+	for (int i = 0; i < Another.size(); i++) {
+		tmp.push_back(Another[i]);
+	}
+	return tmp;
+
+}
+
+bool Dijkstra(int n, int v1, int v2, int g, int h) {
+
+	vector<way> Lng(n + 1);
+	Lng[v1].length = 0;
+	priority_queue<Node> pq;
+
+	pq.push({ 0,v1 });
+
+	bool V1EquGH = false;// 시작점이 g,h일때
+	if (v1 == g || v1 == h) V1EquGH = true;
+	
+	while (!pq.empty()) {
+		Node tmp = pq.top();
+		pq.pop();
+		if (tmp.w > Lng[tmp.idx].length)
+			continue;
+
+		for (const auto &next : graph[tmp.idx]) {
+			if (tmp.w + next.w <= Lng[next.idx].length) {
+				
+
+				if (!V1EquGH) {
+
+					if (tmp.w + next.w != Lng[next.idx].length) {
+						Lng[next.idx].length = tmp.w + next.w;
+						Lng[next.idx].spots = tmp.spots + next.spots;
+
+						Node Next(tmp.w + next.w, next.idx);
+						Next.spots = Lng[next.idx].spots;
+
+						pq.push(Next);
+					}
+					else {	//tmp.w + next.w == Lng[next.idx].length
+						if ((tmp.idx == g && next.idx == h) || (tmp.idx == h && next.idx == g)) {
+							Lng[next.idx].length = tmp.w + next.w;
+							Lng[next.idx].spots = tmp.spots + next.spots;
+
+							Node Next(tmp.w + next.w, next.idx);
+							Next.spots = Lng[next.idx].spots;
+
+							pq.push(Next);
+						}
+
+					}
+				}
+				else{
+					if (next.idx == g || next.idx == h) {
+						Lng[next.idx].length = tmp.w + next.w;
+						Lng[next.idx].spots = tmp.spots + next.spots;
+
+						Node Next(tmp.w + next.w, next.idx);
+						Next.spots = Lng[next.idx].spots;
+
+						pq.push(Next);
+						V1EquGH = false;
+					}
+				}
+
+				
+			}
+		}
+	}
+
+	bool G = false;
+	bool H = false;
+	
+	/*
+	for (const auto &next : Lng[v2].spots) {
+		cout << next << " ";
+	}
+	cout << "\n";
+	*/
+
+	bool ON = false;
+	for (const auto &next : Lng[v2].spots) {
+		
+		if (ON) {
+			if (!G) {
+				if (next == g) return true;
+			}
+			else {
+				if (next == h) return true;
+			}
+			return false;
+		}
+		else {
+			if (next == g || next == h) {
+				ON = true;
+				if (next == g)
+					G = true;
+				else
+					H = true;
+			}
+		}
+		
+		
+		/*
+		if (next == g) G = true;
+		if (next == h) H = true;
+
+		if (G || H) {
+			if (G) {
+				if (next == h)
+					return true;
+			}
+			if(H){
+				if()
+		*/
+	}
+	return false;
+}
+
