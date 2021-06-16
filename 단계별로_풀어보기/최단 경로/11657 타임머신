@@ -1,0 +1,65 @@
+#include<iostream>
+#include<vector>
+#define INF  1e18
+using namespace std;
+
+struct Node {
+	long long w, idx;
+};
+
+vector<Node> graph[500];
+
+vector<long long> Bellman_Ford(int V, int v1) {
+	long long dist[500];
+	
+	fill(dist, dist + V , INF);
+	dist[v1] = 0;
+	//cout << "DEBUG"<<"\n";
+	for (int i = 0; i < V; i++) {		//싸이클 없을때 가능한 통과간선 + 1
+		//cout << "DEBUG_I" << "\n";
+		for (int j = 0; j < V; j++) {	//정점의 갯수
+			for (auto &next : graph[j]) {
+				
+				if (dist[j] != INF && dist[next.idx] > dist[j] + next.w) {	//v1 -> next.idx > v1 -> j -> next.idx       //  dist[j] != INF &&인 이유는 INF > INF + (-1) 인 경우 도달 불가능인데 이상한 결과가 들어감
+					dist[next.idx] = dist[j] + next.w;
+					if (i == V - 1) {						// N-1번의 간선이동 이후에도 (N번째) 계속 줄어드는걸보니 음의 사이클이 있나보다
+						vector<long long> INF_CYC;
+						INF_CYC.push_back(-1);
+						return INF_CYC;
+					}
+				}
+
+			}
+		}
+	}
+	vector<long long>ans;
+	for (int i = 1; i < V; i++) {	
+		ans.push_back(dist[i]);		
+	}
+	return ans;
+}
+
+
+int main() {
+	
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int N, M;
+	cin >> N >> M;
+	for (int i = 0; i < M; i++) {
+		int A, B, C;
+		cin >> A >> B >> C;
+		graph[A-1].push_back({ C,B-1 });
+	}
+
+	vector<long long>ans = Bellman_Ford(N, 0);
+	
+	
+	for (int i = 0; i < ans.size(); i++) {
+		cout << (ans[i] != INF ? ans[i] : -1) << "\n";
+	}
+	
+
+}
