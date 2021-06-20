@@ -1,48 +1,67 @@
 #include<iostream>
-#include<algorithm>
 #include<vector>
 #include<queue>
+#include<algorithm>
 #define INF 987654321
 using namespace std;
 
-
-struct Node {
+class Node {
+public: 
 	int time, idx, money;
-
-	bool operator <(const Node &Other) const{
-		return time > Other.time;
+	
+	bool operator < (const Node &other) const {
+		return time > other.time;
 	}
+
 };
-
-
 
 vector<Node> graph[101];
 
-vector<int> Dijkstra(int N, int v1, int v2) {
-	vector<int> dist(N+1,INF);
-	vector<int> Mny(N + 1);
-	priority_queue<Node>pq;
-	
-	fill(dist.begin(), dist.end(), INF);
-	pq.push({ 0,v1 });
-	dist[v1] = 0;
+int Dijkstra(int N,int M) {
 
+	vector<int> *DP = new vector<int>[N + 1];//DP[idx][money] = time;
+	for (int i = 0; i < N + 1; i++) {
+		DP[i] = vector<int>(M + 1, INF);
+	}
+
+	DP[1][0] = 0;
+
+	priority_queue<Node> pq;
+	pq.push({ 0,1,0 });
+	
 	while (!pq.empty()) {
+
 		Node tmp = pq.top();
 		pq.pop();
-
-		if (dist[tmp.idx] < tmp.time) {
+		
+		if (DP[tmp.idx][tmp.money] < tmp.time) {
 			continue;
 		}
 
 		for (const auto &next : graph[tmp.idx]) {
-			dist[next.idx] = min(dist[next.idx], dist[tmp.idx] + tmp.time);
-
+			if (tmp.money + next.money <= M) {
+				if (DP[next.idx][tmp.money + next.money] > next.time + tmp.time) {
+					DP[next.idx][tmp.money + next.money] = next.time + tmp.time;
+					pq.push({ DP[next.idx][tmp.money + next.money] , next.idx, tmp.money + next.money });
+				}
+			}
 		}
-
 	}
 
-	return dist;
+	int MIN = INF;
+	for (int i = 0; i < M + 1; i++) {
+		MIN = min(MIN, DP[N][i]);
+	}
+
+
+	delete[] DP;
+	for (int i = 0; i < N + 1; i++) {
+		graph[i].clear();
+	}
+
+	return MIN;
+
+	
 }
 
 int main() {
@@ -56,16 +75,18 @@ int main() {
 	for (int i = 0; i < T; i++) {
 		int N, M, K;
 		cin >> N >> M >> K;
-		for (int i = 0; i < K; i++) {
-			int A, B, W,money;
-			cin >> A >> B >> W>> money;
-			graph[A].push_back({ W,B,money });
+		
+		for (int j = 0; j < K; j++) {
+			int u, v, c, d;//u시작,v도착,c비용,d시간;
+			cin >> u >> v >> c >> d;
+			graph[u].push_back({ d,v,c });
 
 		}
+		int ans = Dijkstra(N, M);
+		if (ans != INF)
+			cout << ans << "\n";
+		else
+			cout << "Poor KCM" << "\n";
 	}
 
 }
-
-
-
-
