@@ -1,0 +1,46 @@
+#include<iostream>
+#include<vector>
+#include<queue>
+#include<algorithm>
+#define INF 987654321
+using namespace std;
+
+
+
+int main() {
+	
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	
+	int V,E,ans = INF;
+	int map[401][401];
+
+	cin >> V >> E;
+
+	for (int i = 0; i < V + 1; i++) {
+		fill(map[i], map[i] + V + 1, INF);
+	}
+
+	for (int i = 0; i < E; i++) {
+		int a, b, c;
+		cin >> a >> b >> c;
+		map[a][b] = c;
+	}
+	for (int K = 1; K < V + 1; K++) {
+		for (int A = 1; A < V + 1; A++) {
+			for (int B = 1; B < V + 1; B++) {
+				map[A][B] = min(map[A][B], map[A][K] + map[K][B]);
+			}
+		}
+	}
+
+	for (int i = 1; i < V + 1; i++) {
+		ans = min(ans, map[i][i]);
+	}
+	if (ans != INF)
+		cout << ans;
+	else
+		cout << -1;
+
+}
