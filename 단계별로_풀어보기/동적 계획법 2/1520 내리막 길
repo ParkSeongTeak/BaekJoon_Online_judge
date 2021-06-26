@@ -1,0 +1,81 @@
+#include<iostream>
+#include<queue>
+#include<algorithm>
+#include<vector>
+#define INF 500
+
+using namespace std;
+
+int map[INF][INF];
+int DP[INF][INF];
+int cnt = 0;
+
+int BFS(int N,int M) {
+	int dy[4] = { 0,0,1,-1 };
+	int dx[4] = { 1,-1,0,0 };
+	queue<pair<int, int>>Q;
+	Q.push({ 0,0 });
+	DP[0][0] = 1;
+	while (!Q.empty()) {
+		pair<int, int> tmp = Q.front();
+		Q.pop();
+
+		
+
+		for (int i = 0; i < 4; i++) {
+			int ny = tmp.first + dy[i];
+			int nx = tmp.second + dx[i];
+			
+			if (ny >= 0 && ny < N && nx >= 0 && nx < M) {
+				if (map[tmp.first][tmp.second] > map[ny][nx] ) {
+					if (DP[ny][nx] == 0) {
+						DP[ny][nx] = DP[tmp.first][tmp.second];
+						Q.push({ ny,nx });
+						
+					}
+					else {
+						DP[ny][nx]
+					}
+				}
+			}
+
+		}
+
+	}
+	return DP[N - 1][M - 1];
+}
+
+int dy[4] = { 0,0,1,-1 };
+int dx[4] = { 1,-1,0,0 };
+int N = 0, M = 0;
+/*
+void DFS(int y,int x) {
+	if (y == N - 1 && x == M - 1) {
+		cnt += 1;
+		return;
+	}
+
+	for (int i = 0; i < 4; i++) {
+		int ny = y + dy[i];
+		int nx = x + dx[i];
+
+		if (ny >= 0 && ny < N && nx >= 0 && nx < M) {
+			if (map[y][x] > map[ny][nx]) {
+				DFS(ny, nx);
+			}
+		}
+	}
+}
+
+*/
+int main() {
+
+	cin >> N >> M;
+	for (int y = 0; y < N; y++) {
+		for (int x = 0; x < M; x++) {
+			cin >> map[y][x];
+		}
+	}
+	DFS(0, 0);
+	cout << cnt;
+}
