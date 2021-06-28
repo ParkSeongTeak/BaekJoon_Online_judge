@@ -1,0 +1,63 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+
+int map[2001];
+bool DP[2001][2001];
+
+void DP_ARR(int N) {
+	fill(DP[1] + 1, DP[1] + N+1, true); // 길이 1이면 반드시 팬린드롬
+	for (int i = 2; i <= N; i++) {
+		if (map[i - 1] == map[i]) {
+			DP[2][i] = true;
+		}
+	}										// 길이 2까지는 각각 해봄
+	for (int Leng = 3; Leng <= N; Leng++) {	//
+		for (int cnt = Leng; cnt <= N; cnt++) {
+			if (DP[Leng - 2][cnt - 1]) {
+				if (map[cnt] == map[cnt - Leng + 1]) {
+					DP[Leng][cnt] = true;
+				}
+			}
+		}
+	}
+
+}
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int N; int M;
+	cin >> N;
+	for (int i = 1; i <= N; i++) {
+		cin >> map[i];
+	}
+	cin >> M;
+	DP_ARR(N);
+	
+	for (int i = 0; i < M; i++) {
+		int s, e,L,cnt;
+		cin >> s >> e;
+		L = e - s + 1;
+
+		if (DP[L][e]) {
+			cout << 1 <<"\n";
+		}
+		else {
+			cout << 0 << "\n";
+		}
+	}
+	/*
+	for (int i = 1; i <= N; i++) {
+		for (int j = 1; j <= N; j++) {
+			cout << DP[i][j] << " ";
+		}
+		cout << "\n";
+	}
+	*/
+
+}
