@@ -1,0 +1,54 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+const int MAX = 100000 + 1;
+
+vector<pair<int, int>>graph[MAX];
+bool visit[MAX];
+int farPoint = 0;
+int Dist = 0 ;
+
+void DFS(int now,int cost) {
+	if (visit[now]) {
+		
+		return;
+	}
+	visit[now] = true;
+	if (Dist < cost) {
+		Dist = cost;
+		farPoint = now;
+	}
+
+	for (const auto next : graph[now]) {
+		DFS(next.first, cost + next.second);
+	}
+}
+
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int V;
+	cin >> V;
+	for (int i = 0; i < V; i++) {
+		int P1, P2, cost;
+		cin >> P1;
+		while (1) {
+			cin >> P2;
+			if (P2 == -1)
+				break;
+			cin >> cost;
+			graph[P1].push_back({ P2,cost });
+		}
+	}
+	fill(visit, visit + V + 1, false);
+	DFS(1, 0);
+	fill(visit, visit + V + 1, false);
+	DFS(farPoint, 0);
+	cout << Dist;
+
+}
