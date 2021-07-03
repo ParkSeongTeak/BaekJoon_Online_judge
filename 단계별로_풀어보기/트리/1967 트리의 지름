@@ -1,0 +1,59 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+
+using namespace std;
+
+class Node {
+public :
+	int idx;
+	vector<pair<Node*, int>> linked;
+};
+int N;
+vector<Node> graph(10001);
+bool visit[10001];
+int dist=0, point;
+
+void dfs(int idx,int cost) {
+	if (visit[idx])
+		return;
+	visit[idx] = true;
+	if (cost > dist) {
+		dist = cost;
+		point = idx;
+	}
+	for (auto next : graph[idx].linked) {
+		dfs(next.first->idx, cost + next.second);
+	}
+
+
+}
+
+
+int main() {
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	
+	cin >> N;
+
+	for (int i = 0; i <= N; i++) {
+		graph[i].idx = i;
+	}
+	
+	for (int i = 0; i < N-1; i++) {
+		int p1, p2, w;
+		cin >> p1 >> p2 >> w;
+		graph[p1].linked.push_back({ &graph[p2],w });
+		graph[p2].linked.push_back({ &graph[p1],w });
+
+	}
+	fill(visit, visit + N + 1, false);
+	dfs(1, 0);
+	fill(visit, visit + N + 1, false);
+	dist = 0;
+	dfs(point, 0);
+	cout << dist;
+}
