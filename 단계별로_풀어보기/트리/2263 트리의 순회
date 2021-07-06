@@ -16,6 +16,7 @@ void preO(int inBegin,int inEnd, int postBegin, int postEnd) {
 	int root = postO[postEnd];
 	cout << root << " ";
 	//왼쪽
+	
 	preO(inBegin, idx[root] - 1, postBegin, postBegin + (idx[root] - inBegin) - 1);
 
 	//오른쪽
