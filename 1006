@@ -1,0 +1,60 @@
+#include<iostream>
+#include<algorithm>
+using namespace std;
+
+
+
+
+class Node {
+public:
+	int idx[2];
+	int num;
+
+	Node* Side[3];			//0 위아래, 1왼쪽, 2 오른쪽
+	
+
+	Node* MaxCapa(int W ) {
+		
+		Node* tmp = NULL;
+		int M = -1;
+		for (int i = 0; i < 3; i++) {
+			if (Side[i] ->num + num <= W) {
+				if (M < Side[i]->num + num) {
+					M = Side[i]->num + num;
+					tmp = Side[i];
+				}
+			}
+		}
+		
+		return tmp;
+	}
+
+};
+
+int main() {
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int T;
+	cin >> T;
+
+	for (int i = 0; i < T; i++) {
+		Node arr[2][10000];
+		
+		int N,W;
+		cin >> N >> W;
+
+		
+		for (int j = 0; j < N; j++) {
+			int num;
+			cin >> arr[0][j].num;
+		}
+		for (int j = 0; j < N; j++) {
+			int num;
+			cin >> arr[1][j].num;
+		}
+	}
+
+}
