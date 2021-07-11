@@ -1,0 +1,35 @@
+#include<iostream>
+//#include <cstdio> 
+#include <algorithm> 
+#include <vector>
+#pragma warning(disable:4996)
+using namespace std;
+
+
+void PostO(int start, int End);
+int Size = 0;
+const int MAX = 10001;
+int arr[MAX];
+
+int main() {
+
+	int val;
+	while (cin >> val) {
+		if (val == EOF) break;
+		arr[ Size ++ ] = val;
+	}
+	
+	PostO(0, Size);
+} 
+
+void PostO(int start, int End) {
+	if (start < End) {
+		int begin = arr[start];
+		int right;
+		for (right = start + 1; right < End && begin > arr[right]; right++);
+		PostO(start + 1, right);
+		PostO(right, End);
+		//printf("%d\n", begin);
+		cout << begin << "\n";
+	}
+}
