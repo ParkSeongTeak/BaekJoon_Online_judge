@@ -7,17 +7,24 @@ bool visit[500 + 1];
 int cnt = 0;
 bool End = false;
 
+
+
 class Node {
 public :
 	int idx;
 	vector<Node*>linked;
 };
 
+Node arr[500 + 1];
+
 void clear(int N) {
 	cnt = 0;
 	fill(visit, visit + N + 1, false);
 	End = false;
 	
+	for (int i = 1; i <= N; i++) {
+		arr[i].linked.clear();
+	}
 }
 
 void dfs(Node* node) {
@@ -26,6 +33,7 @@ void dfs(Node* node) {
 
 			if (!End) {
 				End = true;
+				cout << cnt<<" "<< node->idx<<" ";
 				cnt--;
 			}
 
@@ -35,10 +43,10 @@ void dfs(Node* node) {
 		visit[node->idx] = true;
 
 
-		for (const auto next : node->linked) {
-			for (int num = 0; num < next->linked.size();num++) {
+		for (const auto next : node -> linked) {
+			for (int num = 0; num < next->linked.size(); num++) {
 				if (next->linked[num] == node) {
-					next->linked[num] = NULL;
+					next->linked[num] = &arr[0];
 
 				}
 			}
@@ -48,9 +56,14 @@ void dfs(Node* node) {
 }
 
 int main() {
+	
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 	cout.tie(NULL);
+
+	for (int i = 1; i <= 500; i++) {
+		arr[i].idx = i;
+	}
 
 	while (true) {
 		int N, M;
@@ -59,8 +72,8 @@ int main() {
 		if (N == 0 && M == 0)
 			break;
 
-		Node * arr = new Node[N+1];
-
+		
+		
 		for (int i = 0; i < M; i++) {
 			int p1, p2;
 			cin >> p1 >> p2;
@@ -75,8 +88,19 @@ int main() {
 				dfs(&arr[i]);
 			}
 		}
-		delete[] arr;
+		
+		if (cnt == 0) 
+		{
+			cout << "No trees" << "\n";
+		}
+		else if (cnt == 1) 
+		{
+			cout << "There is one tree." << "\n";
+		}
+		else {
+			cout << "A forest of " << cnt << " trees." << "\n";
+		}
 		clear(N);
-
+		
 	}
 }
