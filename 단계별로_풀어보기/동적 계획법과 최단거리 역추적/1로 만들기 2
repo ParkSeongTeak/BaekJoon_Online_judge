@@ -1,0 +1,53 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+int DP[1000001];
+int linked[1000001];
+int N;
+
+void solve() {
+	DP[1] = 0;
+	for (int i = 2; i <= N; i++) {
+		DP[i] = DP[i - 1] + 1;
+		linked[i] = i - 1;
+		if (i % 2 == 0) {
+			if (DP[i / 2] + 1 < DP[i]) 
+			{
+				DP[i] = DP[i / 2] + 1;
+				linked[i] = i / 2;
+			}
+			
+
+		}
+		if (i % 3 == 0) {
+			if (DP[i / 3] + 1 < DP[i])
+			{
+				DP[i] = DP[i / 3] + 1;
+				linked[i] = i / 3;
+			}
+
+
+		}
+	}
+}
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+
+	cin >> N;
+	solve();
+	cout << DP[N] << "\n";
+	cout << N << " ";
+	while (N > 1) {
+		N = linked[N];
+		cout << N<<" ";
+	}
+
+
+
+}
