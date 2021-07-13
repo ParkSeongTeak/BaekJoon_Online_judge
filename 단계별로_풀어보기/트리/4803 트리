@@ -29,14 +29,14 @@ void clear(int N) {
 
 void dfs(Node* node) {
 	if (node != NULL) {
-		if (visit[node->idx]) {			//사이클
-
-			if (!End) {
-				End = true;
-				cout << cnt<<" "<< node->idx<<" ";
-				cnt--;
+		if (visit[node->idx] ) {			//사이클
+			if (node->idx != 0) {
+				if (!End) {
+					End = true;
+					//cout << cnt<<" "<< node->idx<<" ";
+					cnt--;
+				}
 			}
-
 			return;
 		}
 
@@ -61,10 +61,10 @@ int main() {
 	cin.tie(NULL);
 	cout.tie(NULL);
 
-	for (int i = 1; i <= 500; i++) {
+	for (int i = 0; i <= 500; i++) {
 		arr[i].idx = i;
 	}
-
+	int T = 1;
 	while (true) {
 		int N, M;
 		cin >> N >> M;
@@ -91,15 +91,16 @@ int main() {
 		
 		if (cnt == 0) 
 		{
-			cout << "No trees" << "\n";
+			cout << "Case " << T << ": " << "No trees." << "\n";
 		}
 		else if (cnt == 1) 
 		{
-			cout << "There is one tree." << "\n";
+			cout << "Case " << T << ": " << "There is one tree." << "\n";
 		}
 		else {
-			cout << "A forest of " << cnt << " trees." << "\n";
+			cout << "Case " << T << ": " << "A forest of " << cnt << " trees." << "\n";
 		}
+		T++;
 		clear(N);
 		
 	}
