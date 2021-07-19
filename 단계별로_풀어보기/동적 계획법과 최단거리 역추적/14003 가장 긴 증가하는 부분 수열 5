@@ -1,0 +1,95 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#define MAX 1000000
+using namespace std;
+
+int arr[MAX];
+int DP[MAX];
+vector<int> DPsize[MAX + 1];
+vector<int> DParr[MAX];
+int maxIdx = 0;
+int MIN;
+int N;
+
+pair<int,int> BinarySearch(int i) {		//본인 크기 , 전idx;
+	int start = 0;
+	int end = DP[maxIdx];
+	int Keep=0;
+	int bef=0;
+	while (end - start >= 0) {
+		bool find = false;
+		int mid = start + end / 2;
+		for (auto next : DPsize[mid]) {
+			arr[i] > arr[next];
+			if (Keep < mid) {
+				Keep = mid+1;
+				bef = next;
+			}
+			find = true;
+			break;
+		}
+		if (find) {
+			start = mid + 1;
+		}
+		else {
+			end = mid - 1;
+		}
+	}
+
+	return { Keep,bef };
+}
+
+
+
+
+int main() {
+	
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	cin >> N;
+	for (int i = 0; i < N; i++) {
+		cin >> arr[i];
+	}
+
+	MIN = DP[0];
+	DP[0] = 1;
+	DParr[0].push_back(arr[0]);
+
+	for (int i = 1; i < N; i++) {
+		if(arr[i] >= MIN){
+			if (arr[i] > arr[maxIdx]) {
+				DP[i] = DP[maxIdx] + 1;
+				DParr[i] = DParr[maxIdx];
+				DParr[i].push_back(arr[i]);
+				DPsize[DP[i]].push_back(i);
+				maxIdx = i;
+			}
+			else {
+				pair<int, int> getSize = BinarySearch(i);
+				
+				DP[i] = getSize.first;
+				DPsize[DP[i]].push_back(i);
+				DParr[i] = DParr[getSize.second];
+				DParr[i].push_back(arr[i]);
+				if (DP[maxIdx] < DP[i]) {
+					maxIdx = i;
+				}
+			}
+		}
+		else {
+			MIN = arr[i];
+			DP[i] = 1;
+			DParr[i].push_back(arr[i]);
+			DPsize[1].push_back(i);
+		}
+	}
+
+	cout << DP[maxIdx] << "\n";
+	for (int i = 0; i < DParr[maxIdx].size(); i++) {
+		cout << DParr[maxIdx][i] << " ";
+	}
+	
+}
