@@ -2,6 +2,7 @@
 #include<vector>
 #include<queue>
 #include<algorithm>
+#include<string>
 #define MAX 20001
 using namespace std;
 
@@ -19,18 +20,22 @@ public:
 bool bfs(vector<Node> * ARR) {
 	vector<Node> arr = *ARR;
 	vector<bool> visit(arr.size());
-	arr[1].red = true;
+	
 	fill(visit.begin(), visit.end(), false);
-	visit[1] = true;
 	queue<Node> DP;
+
+	arr[1].red = true;
 	DP.push(arr[1]);
+	visit[1] = true;
+
+
 	while (!DP.empty()) {
 		Node tmp = DP.front();
 		DP.pop();
 		visit[tmp.idx] = true;
 		/*
 		cout << tmp.idx;
-		
+
 		if (tmp.red)
 			cout << "red" << "\n";
 		else if(tmp.blue)
@@ -42,11 +47,11 @@ bool bfs(vector<Node> * ARR) {
 					ARR = &arr;
 					return false;
 				}
-				else if(!(next->blue)&&!visit[next->idx]) {
+				else if (!(next->blue) && !visit[next->idx]) {
 					next->blue = true;
 					DP.push(*next);
 				}
-				
+
 			}
 			else {
 				if (next->blue) {
@@ -60,6 +65,7 @@ bool bfs(vector<Node> * ARR) {
 			}
 		}
 	}
+
 	ARR = &arr;
 	return true;
 }
@@ -69,6 +75,7 @@ int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 	cout.tie(NULL);
+	vector<string>str;
 
 	int K;
 	cin >> K;
@@ -91,15 +98,9 @@ int main() {
 			arr[p1].linked.push_back(&arr[p2]);
 			arr[p2].linked.push_back(&arr[p1]);
 		}
-		bipartitegraph = bfs(&arr);
-		for (int t = 2; t <= V; t++) {
-			if (!(arr[t].red || arr[t].blue)) {
-				//cout << t << " ";
-				visitAll = false;
-			}
-		}
 
-		if (bipartitegraph && visitAll) {
+
+		if (bfs(&arr)) {
 			cout << "YES" << "\n";
 		}
 		else {
@@ -107,4 +108,5 @@ int main() {
 		}
 
 	}
+
 }
