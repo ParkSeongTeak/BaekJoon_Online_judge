@@ -1,87 +1,110 @@
-
 #include<iostream>
 #include<vector>
+#include<queue>
 #include<algorithm>
-#include<string>
+#define MAX 20001
 using namespace std;
 
 class Node {
 public:
 	int idx;
-	Node * Linked[3] = { NULL,NULL, NULL }; // 
-	int LinkedNum = 0;
+	bool red = false;
+	bool blue = false;
+	vector<Node * >linked;
 };
 
+// bool visit[MAX];
+
+
+bool bfs(vector<Node> * ARR) {
+	vector<Node> arr = *ARR;
+	vector<bool> visit(arr.size());
+	arr[1].red = true;
+	fill(visit.begin(), visit.end(), false);
+	visit[1] = true;
+	queue<Node> DP;
+	DP.push(arr[1]);
+	while (!DP.empty()) {
+		Node tmp = DP.front();
+		DP.pop();
+		visit[tmp.idx] = true;
+		/*
+		cout << tmp.idx;
+		
+		if (tmp.red)
+			cout << "red" << "\n";
+		else if(tmp.blue)
+			cout << "blue" << "\n";
+			*/
+		for (auto next : tmp.linked) {
+			if (tmp.red) {
+				if (next->red) {
+					ARR = &arr;
+					return false;
+				}
+				else if(!(next->blue)&&!visit[next->idx]) {
+					next->blue = true;
+					DP.push(*next);
+				}
+				
+			}
+			else {
+				if (next->blue) {
+					ARR = &arr;
+					return false;
+				}
+				else if (!(next->red) && !visit[next->idx]) {
+					next->red = true;
+					DP.push(*next);
+				}
+			}
+		}
+	}
+	ARR = &arr;
+	return true;
+}
 
 int main() {
+	
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
-	cout.tie();
+	cout.tie(NULL);
 
 	int K;
 	cin >> K;
-	for (int i = 0; i < K;  i++) {
+	for (int i = 0; i < K; i++) {
 		int V, E;
-		int num;
+		bool visitAll = true;
+		bool bipartitegraph;
 		cin >> V >> E;
+
 		vector<Node> arr(V + 1);
-		try {
-			//if (V == E + 1) {
-			for (int j = 0; j < E; j++) {
-				int num1, num2;
-				cin >> num1 >> num2;
-				if (V == E + 1) {
-					for (int k = 0; k < 4; k++) {
-						if (K == 3) {
-							throw 0;
-						}
-						if (arr[num1].Linked[k] == NULL) {
-							arr[num1].Linked[k] = &arr[num2];
-							arr[num1].LinkedNum += 1;
+		
+		for (int t = 1; t <= V; t++) {
+			arr[t].idx = t;
 
-							break;
-
-						}
-					}
-					for (int k = 0; k < 4; k++) {
-						if (K == 3) {
-							throw 0;
-						}
-						if (arr[num2].Linked[k] == NULL) {
-							arr[num2].Linked[k] = &arr[num1];
-							arr[num2].LinkedNum += 1;
-
-							break;
-						}
-					}
-				}
-			}
-
-
-			//}
-			//else {
-			//	throw "NO";
-			//}
-			int num;
-			bool HaveRoot = false;
-			for (num = 1; num <= V; num++) {				
-				if (arr[num].LinkedNum == 2) {
-					HaveRoot = true;
-					break;
-				}
-			}
-			if (!HaveRoot) { throw 0; }
-			throw 1;
 		}
-		catch (int i) {
-			if (i) {
-				cout << "Yes" << "\n";
+
+		for (int j = 0; j < E; j++) {
+			int  p1, p2;
+			cin >> p1 >> p2;
+			arr[p1].linked.push_back(&arr[p2]);
+			arr[p2].linked.push_back(&arr[p1]);
+		}
+		bipartitegraph = bfs(&arr);
+		for (int t = 2; t <= V; t++) {
+			if (!(arr[t].red || arr[t].blue)) {
+				//cout << t << " ";
+				visitAll = false;
 			}
-			else {
-				cout << "No" << "\n";
-			}
+		}
+
+		if (bipartitegraph && visitAll) {
+			cout << "YES" << "\n";
+		}
+		else {
+			cout << "NO" << "\n";
 		}
 
 	}
-
 }
