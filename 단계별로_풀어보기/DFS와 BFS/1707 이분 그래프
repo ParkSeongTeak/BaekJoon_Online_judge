@@ -17,16 +17,16 @@ public:
 // bool visit[MAX];
 
 
-bool bfs(vector<Node> * ARR) {
+bool bfs(vector<Node> * ARR,int start ) {
 	vector<Node> arr = *ARR;
 	vector<bool> visit(arr.size());
-	
+
 	fill(visit.begin(), visit.end(), false);
 	queue<Node> DP;
 
-	arr[1].red = true;
-	DP.push(arr[1]);
-	visit[1] = true;
+	arr[start].red = true;
+	DP.push(arr[start]);
+	visit[start] = true;
 
 
 	while (!DP.empty()) {
@@ -71,22 +71,22 @@ bool bfs(vector<Node> * ARR) {
 }
 
 int main() {
-	
+
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 	cout.tie(NULL);
-	vector<string>str;
 
+	
 	int K;
 	cin >> K;
 	for (int i = 0; i < K; i++) {
 		int V, E;
-		bool visitAll = true;
-		bool bipartitegraph;
+		int start;
+		bool getstart = false;
 		cin >> V >> E;
 
 		vector<Node> arr(V + 1);
-		
+
 		for (int t = 1; t <= V; t++) {
 			arr[t].idx = t;
 
@@ -95,12 +95,17 @@ int main() {
 		for (int j = 0; j < E; j++) {
 			int  p1, p2;
 			cin >> p1 >> p2;
+			if (!getstart) {
+				getstart = true;
+				start = p1;
+			}
+				
 			arr[p1].linked.push_back(&arr[p2]);
 			arr[p2].linked.push_back(&arr[p1]);
 		}
 
 
-		if (bfs(&arr)) {
+		if (bfs(&arr,start)) {
 			cout << "YES" << "\n";
 		}
 		else {
