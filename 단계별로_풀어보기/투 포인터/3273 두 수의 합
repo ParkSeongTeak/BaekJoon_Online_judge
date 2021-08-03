@@ -1,0 +1,47 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+
+using namespace std;
+
+int main() {
+	
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int n, x;
+	cin >> n;
+	bool beforeFront = false;
+	int cnt = 0;
+	vector<int> arr(n);
+	
+	for (int i = 0; i < n; i++) {
+		cin >> arr[i];
+	}
+	cin >> x;
+
+	sort(arr.begin(), arr.end());
+
+	auto front = arr.begin();
+	auto end = arr.end();
+
+	end--;
+	//cout << *front;
+	//cout << *end;
+
+	while (front != end) {
+		if (*front + *end == x) {
+			cnt++;
+			front++;
+		}
+		else if (*front + *end < x) {
+			front++;
+		}
+		else if (*front + *end > x) {
+			end--;
+		}
+	}
+	cout << cnt;
+
+}
