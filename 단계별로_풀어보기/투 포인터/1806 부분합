@@ -1,0 +1,61 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<math.h>
+
+using namespace std;
+
+int main() {
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int n, s,DP,cnt = 987654321;
+	cin >> n >> s;
+	bool two = false;
+	vector<int> arr(n);
+
+	for (int i = 0; i < n; i++) {
+		cin >> arr[i];
+	}
+	
+	auto front = arr.begin();
+	if (*front >= s) {
+		cout << 1;
+		return 0;
+	}
+	auto end = arr.begin();
+	end++;
+	DP = *front + *end;
+	
+	//auto end = arr.end();
+	//cout << (int)(end-front) ;
+
+	while (!(front > end)) {
+		if (DP >= s) {
+			cnt = min(cnt, (int)(end - front));
+			if (--arr.end() > front) {
+				DP -= *front;
+				front++;
+			}
+				
+			else
+				break;
+		}
+		else {
+			if (--arr.end() > end) {
+				end++;
+				DP += *end;
+			}
+			else
+				break;
+		}
+	}
+	if(cnt != 987654321)
+		cout << cnt+1;
+	else
+		cout << 0;
+
+	
+}
