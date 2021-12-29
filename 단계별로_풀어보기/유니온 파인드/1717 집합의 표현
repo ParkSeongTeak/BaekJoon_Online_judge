@@ -1,0 +1,49 @@
+#include <iostream>
+
+using namespace std;
+
+int arrUnionMap[1000001];
+int n;
+
+int do_find(int x) {
+    if (x == arrUnionMap[x]) return x;
+    return arrUnionMap[x] = do_find(arrUnionMap[x]);
+}
+
+void do_union(int x, int y) {
+    int px = do_find(x);
+    int py = do_find(y);
+
+    if (px > py) arrUnionMap[px] = py;
+    else if (px < py) arrUnionMap[py] = px;
+}
+
+int main() {
+
+    int m;
+
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+
+
+    cin >> n >> m;
+    for (int i = 0; i <= n; i++) arrUnionMap[i] = i;
+
+    for (int i = 0; i < m; i++) {
+        int op, x, y;
+        cin >> op >> x >> y;
+        if (op == 0) {
+            // union x and y
+            do_union(x, y);
+        }
+        else {
+            // find
+            if (do_find(x) == do_find(y)) printf("YES\n");
+            else printf("NO\n");
+        }
+    }
+
+    return 0;
+}
