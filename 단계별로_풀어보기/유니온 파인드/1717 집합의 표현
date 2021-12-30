@@ -10,6 +10,21 @@ int do_find(int x) {
     return arrUnionMap[x] = do_find(arrUnionMap[x]);
 }
 
+//https://sihyungyou.github.io/baekjoon-1717/
+/*
+int do_find(int x) {
+    while (arrUnionMap[x] != x) x = arrUnionMap[x];
+    return x;
+} //초기 설계
+
+선형적으로 부모만 따라감 
+
+나의 설계와 다른점 : find 할 때 마다 정점의 자손들이 가리키는 부모노드를 
+최상위 노드로 갱신해줌
+
+*/
+
+
 void do_union(int x, int y) {
     int px = do_find(x);
     int py = do_find(y);
