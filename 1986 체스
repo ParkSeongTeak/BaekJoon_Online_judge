@@ -1,0 +1,96 @@
+#include<iostream>
+#include<stack>
+using namespace std;
+
+int map[1003][1003];// 0 빈칸 1 폰 2 나이트 3 퀸 -1 이동불가칸
+
+
+void Qmove(int y, int x) {
+	int dx[8] = { 1, 1, 1, 0, 0 ,-1 ,-1 ,-1 };
+	int dy[8] = { 1, 0, -1, 1, -1, 1, 0 , -1};
+	int idx;
+	for (int i = 0;i < 8;i++) {
+		idx = 1;
+		while (map[y + idx * dy[i]][x + idx * dx[i]] <= 0 ) {	//위
+			map[y + idx * dy[i]][x + idx * dx[i]] = -1;
+			idx++;
+		}
+	}
+
+}
+
+void Kmove(int y, int x) {
+	int dx[8] = { 1, 1, 2, 2,		-1 ,-1 ,-2 ,-2 };
+	int dy[8] = { 2, -2, -1, 1,		-2, 2, -1 , 1 };
+	int idx;
+	for (int i = 0;i < 8;i++) {
+		if (y + dy[i] > 0 && x + dx[i] > 0 &&	map[y + dy[i]][x + dx[i]] == 0) {	//위
+			map[y + dy[i]][x + dx[i]] = -1;
+		}
+	}
+
+}
+
+int main() {
+	int n, m, q,k,p,y,x;
+	cin >> n >> m;
+	stack<pair<int, int>> unit;
+
+	// 체스판 가장자리
+	for (int i = 0; i < m+2; i++) {
+		map[0][i] = 1;
+		map[n + 1][i] = 1;
+
+	}
+	for (int i = 0; i < n+2; i++) {
+		map[i][0] = 1;
+		map[i][m + 1] = 1;
+
+	}
+	//Q,K,P 위치
+	cin >> q;
+	for (int i = 0;i < q; i++) {
+		cin >> y >> x;
+		map[y][x] = 3;
+		unit.push({ y,x });
+	}
+	cin >> k;
+	for (int i = 0;i < k; i++) {
+		cin >> y >> x;
+		map[y][x] = 2;
+		unit.push({ y,x });
+
+
+	}
+	cin >> p;
+	for (int i = 0;i < p; i++) {
+		cin >> y >> x;
+		map[y][x] = 1;
+	}
+	/////////////
+
+	//K->Q순으로 기물 놓기
+	for (int i = 0;i < k; i++) {		
+		y = unit.top().first;
+		x = unit.top().second;
+		unit.pop();
+		Kmove(y, x);
+	}
+	for (int i = 0;i < q; i++) {
+		y = unit.top().first;
+		x = unit.top().second;
+		unit.pop();
+		Qmove(y, x);
+	}
+	int ans = 0;
+	for (int y = 1;y <= n; y++) {
+		for (int x = 1; x <= m; x++) {
+			if (map[y][x] == 0)
+				ans += 1;
+		}
+	}
+	
+	cout << ans;
+
+
+}
