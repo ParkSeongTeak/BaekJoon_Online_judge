@@ -1,0 +1,86 @@
+#include<iostream>
+#include<algorithm>
+#include<queue>
+#include<stack>
+
+#define INF 987654321
+using namespace std;
+
+int unionArr[10001];
+bool unionVisit[10001];
+
+class Weight {
+public:
+	int p1, p2;
+	int w;
+
+	 
+};
+bool operator < ( const Weight& one,const Weight& other) {
+	return one.w < other.w;
+
+}
+bool operator > (const Weight& one, const  Weight& other) {
+	return one.w > other.w;
+}
+priority_queue<Weight,vector<Weight>,greater<Weight>> PQ;
+
+int Find(int p) {
+	if (unionArr[p] == p) return p;
+	else {
+		return unionArr[p] = Find(unionArr[p]);
+	}
+}
+void Union(int p1, int p2) {
+	p1 = Find(p1);
+	p2 = Find(p2);
+
+	if (p1 < p2) {
+		unionArr[p1] = unionArr[p2];
+	}
+	else {
+		unionArr[p2] = unionArr[p1];
+	}
+
+}
+
+
+long long Kruscal() {
+	long long ans = 0;
+	Weight now;
+	while (!PQ.empty()) {
+		now = PQ.top();
+		PQ.pop();
+		if (Find(now.p1) != Find(now.p2)) {
+			Union(now.p1, now.p2);
+			ans += now.w;
+	//		cout << now.p1 <<" " << now.p2 << " " << now.w<<"\n";
+		}
+		
+	}
+	return ans;
+}
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	for (int i = 0; i < 10001;i++) {
+		unionArr[i] = i;
+		unionVisit[i] = false;
+	}
+	
+
+	int V, E,p1,p2,w;
+	Weight tmp;
+	cin >> V >> E;
+	for (int i = 0;i < E;i++) {
+		cin >> p1 >> p2 >> w;
+		tmp.p1 = p1;
+		tmp.p2 = p2;
+		tmp.w = w;
+		PQ.push(tmp);
+	}
+	long long ans = Kruscal();
+	cout << ans;
+}
