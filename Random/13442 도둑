@@ -1,0 +1,51 @@
+#include<iostream>
+using namespace std;
+
+
+
+
+int main() {
+	int T,N,M,K;
+	int cnt = 0, idx, end;
+	long long  tmp;
+	cin >> T;
+	for (int i = 0;i < T;i++) {
+		cnt = 0;
+		idx = 0;
+		tmp = 0;
+		cin >> N >> M >> K;
+		int* arr = new int[N];
+		for (int j = 0;j < N;j++)
+			cin >> arr[j];
+		end = N - M;
+		
+
+		for (int j = end; j < N; j++) {
+			tmp += arr[j];
+		}
+		
+		if (N != M) {
+			for (int j = 0;j < N;j++) {
+				tmp += arr[idx];
+				tmp -= arr[end];
+				if (tmp < K) {
+					cnt++;
+				}
+
+				idx++;
+				end++;
+				if (end == N)
+					end = 0;
+			}
+		}
+		else {
+			if (tmp < K) {
+				cnt++;
+			}
+		}
+
+
+		cout << cnt << "\n";
+		delete[] arr;
+	}
+}
