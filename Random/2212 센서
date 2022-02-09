@@ -1,0 +1,49 @@
+#include<iostream>
+#include<queue>
+#include<algorithm>
+#include<vector>
+using namespace std;
+
+
+vector<int> point;
+vector<int> sub;
+
+
+
+int main() {
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	
+	int N, K, p;
+	int ADD;
+	
+	cin >> N >> K;
+	for (int i = 0;i < N;i++) {
+		cin >> p;
+		point.push_back(p);
+	}
+	if (N >= 2) {
+		sort(point.begin(), point.end());
+
+		ADD = point[N - 1] - point[0];
+
+		for (int i = 1;i < N;i++) {
+			sub.push_back(point[i] - point[i - 1]);
+		}
+
+		sort(sub.begin(), sub.end());
+
+		for (int i = 0;i < K - 1;i++) {
+			ADD -= sub[N - 2 - i];
+		}
+		cout << ADD;
+	}
+	else {
+		cout << 0;
+	}
+
+
+}
