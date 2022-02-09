@@ -1,0 +1,55 @@
+#include<iostream>
+#include<queue>
+#include<algorithm>
+#include<vector>
+using namespace std;
+
+
+vector<int> Y[100000 + 1];	//Y[y값] {x값 점 번호}
+
+vector<int> X[100000 + 1];	////X[x값] {y값 점 번호}
+
+queue<pair<int, int>> point;	//y,x
+
+
+
+int main() {
+	
+
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+
+	long long ans = 0;
+
+	int N,y,x;
+	cin >> N;
+	int idx;
+	for (int i = 0;i < N;i++) {
+		cin >> y >> x;
+		Y[y].push_back(x);
+		X[x].push_back(y);
+		point.push({ y,x });
+
+	}
+
+	while (!point.empty()) {
+		int y = point.front().first;
+		int x = point.front().second;
+		point.pop();
+	
+		
+		ans += (Y[y].size() - 1) * (X[x].size() - 1);
+		//if ((Y[y].size() - 1) * (X[x].size() - 1) != 0) {
+		//	cout << "Y: " << y << " X: " << x << (Y[y].size() - 1) * (X[x].size() - 1)<<"\n";
+		//}
+	}
+	
+	cout << ans;
+
+
+
+
+}
