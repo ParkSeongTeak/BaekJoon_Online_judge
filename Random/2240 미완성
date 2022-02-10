@@ -1,0 +1,61 @@
+//2240
+
+#include<iostream>
+#include<algorithm>
+using namespace std;
+
+
+int num[1000];
+int onesum[1000][1000];
+int twosum[1000][1000];
+int onedens[1000][1000];
+int twodens[1000][1000];
+
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int T,W;
+
+	cin >> T >> W; 
+
+	cin >> num[0];
+
+	if (num[0] == 1) {
+		onesum[0][0] = 1;
+	}
+	else {
+		twosum[0][0] = 1;
+
+	}
+
+	for (int i = 1; i < T;i++) {
+		cin >> num[i];
+
+		if (num[i] == 1) {
+			onesum[0][i] = onesum[0][i - 1] + 1;
+		}
+		else {
+			twosum[0][i] = twosum[0][i - 1] + 1;
+		}
+		
+	}
+
+	for (int i = 1; i < T;i++) {
+		for (int j = i; j < T;j++) {
+			onesum[i][j] = onesum[0][j] - onesum[0][i - 1];
+			twosum[i][j] = twosum[0][j] - twosum[0][i - 1];
+
+			onedens[i][j] = onesum[i][j] - (j - i + 1 - onesum[i][j]);
+			twodens[i][j] = twosum[i][j] - (j - i + 1 - twosum[i][j]);
+
+		}
+	}
+
+
+
+
+
+}
