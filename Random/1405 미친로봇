@@ -1,0 +1,67 @@
+//2240
+
+#include<iostream>
+#include<algorithm>
+#include<vector>
+using namespace std;
+
+double Per[4]; //0:E 1:W 2:N 3:S
+pair<int, int> direction[4] = { {0,1}, {0,-1}, {1,0}, {-1,0} }; //y,x;
+
+int N;
+double ans = 0;
+void dfs(vector<pair<int,int>> Record,double per,int cnt) {
+	if (cnt == N) {
+		//cout <<"\t\t" << "!" << per << "\n";
+		ans += per;
+	}
+	
+	else {
+		double y, x, nextY,nextX;
+		bool newpos = true;
+		y = Record[Record.size() - 1].first;
+		x = Record[Record.size() - 1].second;
+		//cout << Record.size() - 1 <<"  y " << y << " x " << x <<"\n";
+		for (int i = 0; i < 4; i++) {
+			newpos = true;
+			nextY = y + direction[i].first;
+			nextX = x + direction[i].second;
+
+			//cout <<"\t" << "nextY " << nextY << "  nextX " << nextX << " ";
+			for (int j = 0; j < Record.size(); j++) {
+				if (nextY == Record[j].first && nextX == Record[j].second) {
+					//cout << "return " << "\n";
+					newpos = false;
+				}
+			}
+			if (newpos && per * Per[i] >0) {
+				//cout << "\n";
+				Record.push_back({ nextY , nextX });
+
+				dfs(Record, per * Per[i], cnt + 1);
+				Record.pop_back();
+			}
+		}
+	}
+
+	
+}
+
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	cin >> N;
+	double tmp;
+	for (int i = 0;i < 4;i++) {
+		cin >> tmp;
+		Per[i] = tmp / 100;
+	}
+	vector<pair<int, int>> Record;
+	Record.push_back({ 0,0 });
+	dfs(Record, 1.0, 0);
+	cout.precision(9);
+	cout << ans;
+}
