@@ -1,0 +1,42 @@
+#include<iostream>
+#include<queue>
+#include<algorithm>
+#include<vector>
+#define MAX 10000
+using namespace std;
+
+
+
+
+int main() {
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	vector<int> point;
+	vector<int> sub;
+
+
+	int N, K, p;
+	cin >> N >> K;
+
+	for (int i = 0; i < N; i++);
+	{
+
+		cin >> p;
+		point.push_back(p);
+
+	}
+
+
+	//sort(point.begin(), point.end());
+
+	cout << point[1];
+	for (int i = 0; i < N; i++) {
+		sub.push_back(point[i] - point[i - 1]);
+	}
+
+
+
+}
