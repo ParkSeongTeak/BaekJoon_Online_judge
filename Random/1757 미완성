@@ -1,10 +1,12 @@
 #include<iostream>
-#include<queue>
-#include<algorithm>
 #include<vector>
-#define MAX 10000
+#include<algorithm>
+
 using namespace std;
 
+int Di[10000];
+
+int DP[10001][501][2];		//DP[i][j][k]  i분일때 j 만큼 지쳤을때 K = 0이전 쉰것 1 이전 뛴것
 
 
 
@@ -14,29 +16,47 @@ int main() {
 	cin.tie(NULL);
 	cout.tie(NULL);
 
-	vector<int> point;
-	vector<int> sub;
+	int N, M;
+	cin >> N >> M;
 
-
-	int N, K, p;
-	cin >> N >> K;
-
-	for (int i = 0; i < N; i++);
-	{
-
-		cin >> p;
-		point.push_back(p);
-
+	for (int i = 0;i < N;i++) {
+		cin >> Di[i];
 	}
 
+	DP[0][0][0] = 0;
+	DP[0][1][1] = Di[0];
 
-	//sort(point.begin(), point.end());
+	
+	for (int i = 1;i < N;i++) {
+		
+		if (M == 1) {
+			DP[i][1][1] = DP[i - 1][0][0] + Di[i];
+			DP[i][0][0] = max(DP[i - 1][1][1], DP[i - 1][0][0]);
+		}
+		else {
 
-	cout << point[1];
-	for (int i = 0; i < N; i++) {
-		sub.push_back(point[i] - point[i - 1]);
+			DP[i][0][0] = max(DP[i - 1][0][0], max(DP[i - 1][1][1], DP[i - 1][1][0]));
+			DP[i][1][1] = DP[i - 1][0][0] + Di[i];
+
+			DP[i][1][0] = max(DP[i - 1][2][0], DP[i - 1][2][1]);
+
+
+			for (int j = 2;(j <= M - 1 && j <= i);j++) {
+				DP[i][j][0] = max(DP[i - 1][j + 1][0], DP[i - 1][j + 1][1]);
+				DP[i][j][1] = DP[i - 1][j - 1][1] + Di[i];
+
+			}
+
+			DP[i][M][1] = DP[i - 1][M - 1][1] + Di[i];
+
+		}
+		
+
 	}
+	cout << DP[N - 1][0][0];
+	
 
 
 
+	
 }
