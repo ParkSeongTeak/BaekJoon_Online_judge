@@ -1,0 +1,104 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<math.h>
+#define MAX 100000
+using namespace std;
+
+
+class ADDform {
+public:
+	int addorg = 2100000000;
+	int addabs = 2100000000;
+	int P = 0;
+	int N = 0;
+};
+
+int Pa[MAX];
+int Ne[MAX];
+
+ ADDform ADD[MAX];
+
+bool compare(int i, int j) {
+	return j < i;
+}
+bool compareADDform(ADDform i, ADDform j) {
+	return j.addabs > i.addabs;
+}
+
+int main() {
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+
+	int N,tmp,idxP = 0 , idxN = 0,idx = 0;
+	int oneSide= 2100000000;
+
+	int oneSide1, oneSide2;
+	int ADD1, ADD2;
+	cin >> N;
+
+	for (int i = 0;i < N;i++) {
+		cin >> tmp;
+		if (tmp >= 0) {
+			Pa[idxP] = tmp;
+			idxP++;
+		}
+		else {
+			Ne[idxN] = tmp;
+			idxN++;
+		}
+	}
+
+	sort(Pa, Pa + idxP);
+	sort(Ne, Ne + idxN,compare);
+
+	
+	if (idxP >= 2) {
+		oneSide = abs(Pa[0] + Pa[1]);
+		oneSide1 = Pa[0];
+		oneSide2 = Pa[1];
+	}
+
+	if (idxN >= 2) {
+		if (oneSide > abs(Ne[0] + Ne[1])){
+			oneSide = abs(Ne[0] + Ne[1]);
+			oneSide1 = Ne[1];
+			oneSide2 = Ne[0];
+		}
+
+	}
+	
+	for (int i = 0; i < idxP;i++) {
+		while (idx < idxN)
+		{
+			if (ADD[i].addabs > abs(Pa[i] + Ne[idx])) {
+				ADD[i].addorg = Pa[i] + Ne[idx];
+				ADD[i].addabs = abs(Pa[i] + Ne[idx]);
+				ADD[i].P = i;
+				ADD[i].N = idx;
+				idx++;
+			}
+			else {
+				
+				if (ADD[i].addorg < 0)
+					idx--;
+
+				break;
+			}
+		}
+	}
+
+	sort(ADD, ADD + idxP,compareADDform);
+
+	if (ADD[0].addabs < oneSide) {
+		cout << Ne[ADD[0].N] << " " << Pa[ADD[0].P] ;
+	}
+	else {
+		cout << oneSide1 << " " << oneSide2;
+
+	}
+	
+}
