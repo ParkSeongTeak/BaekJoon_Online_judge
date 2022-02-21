@@ -1,0 +1,45 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int numA = 0, numB=0;
+	int cntA, cntB, maxA, maxB;
+
+	cin >> cntA >> cntB >> maxA >> maxB;
+
+	if (maxA > 0 && maxB > 0) {
+		if (((double)cntA / maxA) > (cntB+1)) {
+			numA = (cntB+1) * maxA;
+		}
+		else {
+			numA = cntA;
+		}
+
+		if (((double)cntB / maxB) > (cntA + 1)) {
+			numB = (cntA+1) * maxB;
+		}
+		else {
+			numB = cntB;
+		}
+
+	}
+	else {
+		if (cntA > maxA)
+			numA = maxA;
+		else
+			numA = cntA;
+		if(cntB>maxB)
+			numB = maxB;
+		else {
+			numB = cntB;
+		}
+	}
+
+	cout << numA + numB;
+}
