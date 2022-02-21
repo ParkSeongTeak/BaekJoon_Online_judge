@@ -1,0 +1,54 @@
+#include<iostream>
+#include<vector>
+#include<string>
+#define MAX 1000000
+using namespace std;
+
+int power[20];
+int name[MAX];
+vector<int> num[20];
+
+
+void TwoPow() {
+	power[0] =1;
+	for (int i = 1;i < 20;i++) {
+		power[i] = power[i - 1] * 2;
+	}
+}
+
+int main() {
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+
+
+	long long ans = 0;
+	TwoPow();
+	int N;
+	cin >> N;
+	for (int i = 0;i < N;i++) {
+		cin >> name[i];
+	}
+
+
+	for (int i = 19;i >= 0;i--) {
+		for (int j = 0;j < N;j++) {
+			if (name[j] >= power[i]) {
+				num[i].push_back(j);	//name
+				name[j] -= power[i];	
+			}
+		}
+	}
+	for (int i = 19;i >= 0;i--) {
+		if (!num[i].empty()) {
+			ans+=  num[i].size() *(N- num[i].size()) * power[i];
+			
+		}
+	}
+
+	cout << ans;
+
+
+}
