@@ -1,0 +1,75 @@
+#include<iostream>
+#include<algorithm>
+#include<vector>
+using namespace std;
+
+class Jewel {
+public:
+	int weigh;
+	int value;
+	Jewel(int weigh, int value) :weigh(weigh), value(value) {}
+};
+
+bool operator > (const Jewel& o1, const Jewel& o2) {
+	return o1.value > o2.value;
+}
+
+bool operator < (const Jewel& o1, const Jewel& o2) {
+	return o1.value < o2.value;
+}
+bool oper(const Jewel& o1, const Jewel& o2) {
+	return o1.value > o2.value;
+}
+
+int bag[300002];
+bool bagEmp[300002];
+
+vector<Jewel> jewel;
+
+int BiSearch(int weigh,int start,int end) {
+	int mid = (start + end) / 2;
+
+	if (start >= end) {
+		return end;
+	
+	}
+
+	if (bag[mid-1] < weigh && bag[mid] > weigh) {
+		return mid;
+	}
+	else if (bag[mid] > weigh) {
+		return BiSearch(weigh, start, mid);
+	}
+	else  {
+		return BiSearch(weigh, mid+1,end);
+	}
+	
+}
+
+int main() {
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int n, k, m, v, c;
+	long long ans = 0;
+	int cnt = 0;
+	cin >> n >> k;
+	for (int i = 0;i < n;i++) {
+		cin >> m >> v;
+		jewel.push_back(Jewel(m, v));
+
+	}
+	sort(jewel.begin(), jewel.end(),oper);
+
+
+	for (int i = 0;i < k;i++) {
+		cin >> bag[i];
+
+	}
+
+	sort(bag, bag + k);
+
+	
+	for (int i = 0;i < n && 
