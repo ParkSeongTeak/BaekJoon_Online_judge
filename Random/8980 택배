@@ -1,0 +1,73 @@
+#include<iostream>
+#include<algorithm>
+#include<vector>
+
+using namespace std;
+
+
+class Lug {
+public:
+	int start;
+	int end;
+	int w;
+
+	Lug(int start,int end,int w):start(start),  end(end), w(w) {
+
+	}
+};
+
+bool operator < (const Lug& o1, const Lug& o2) {
+	return o1.end < o2.end;
+}
+
+
+bool operator > (const Lug& o1, const Lug& o2) {
+	return o1.end > o2.end;
+}
+
+vector<Lug> lug;
+int weighMap[2001];
+int main() {
+
+	ios_base::sync_with_stdio(false);
+	cout.tie(NULL);
+	cin.tie(NULL);
+
+	int n, c, m,start,end,w,tmp, sectionMax;
+	int ans = 0;
+	
+	cin >> n >> c >> m;
+	for (int i = 0;i < m;i++) {
+		cin >> start >> end >> w;
+		lug.push_back(Lug(start, end, w));
+	}
+	sort(lug.begin(), lug.end());
+
+	for (int i = 0;i < m;i++) {
+		sectionMax = *max_element(weighMap + lug[i].start, weighMap + lug[i].end);
+		if (sectionMax < c) {
+			if (sectionMax + lug[i].w <= c) {
+				ans += lug[i].w;
+
+				for (int j = lug[i].start; j < lug[i].end;j++) {
+					weighMap[j] += lug[i].w;
+				}
+			}
+			else {
+				tmp = c - sectionMax;
+				ans += tmp;
+				for (int j = lug[i].start; j < lug[i].end;j++) {
+					weighMap[j] += tmp;
+				}
+			}
+		}
+
+	}
+	/*
+	for (int i = 0;i <= m ; i++) {
+		cout<< weighMap[i]<<" ";
+	}
+	cout << "\n";
+	*/
+	cout << ans;
+}
