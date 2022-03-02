@@ -1,0 +1,128 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<cmath>
+#include<queue>
+#define MAX 1001
+
+
+using namespace std;
+
+class Point {
+public :
+	int idx;
+	int x;
+	int y;
+};
+
+class Line {
+public:
+	Point p1;
+	Point p2;
+	double leg;
+	Line(Point p1 , Point p2): p1(p1),p2(p2) {
+		leg = sqrt(pow( p1.x - p2.x,2) + pow(p1.y - p2.y,2));
+	}
+	Line() {};
+
+};
+
+Point point[MAX];
+
+int parant[MAX];
+
+
+bool cont (const Line l1, const Line l2) {
+	return l1.leg < l2.leg;
+}
+
+bool operator < (const Line l1,const Line l2) {
+	return l1.leg < l2.leg;
+}
+
+bool operator > (const Line l1, const Line l2) {
+	return l1.leg > l2.leg;
+}
+int Find(int p1) {
+	if (p1 == parant[p1]) {
+		return p1;
+	}
+	else {
+		return parant[p1] = Find(parant[p1]);
+	}
+}
+
+void Union(int p1,int p2) {
+	p1 = Find(p1);
+	p2 = Find(p2);
+
+	if (p1 != p2) {
+		if (p1 >= p2) {
+			parant[p2] = p1;
+		}
+		else {
+			parant[p1] = p2;
+		}
+	}
+
+}
+
+priority_queue<Line,vector<Line>,greater<Line>> pq;
+
+
+int main() {
+	
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	
+
+	int n, m,cnt;
+	double ans = 0;
+	cin >> n >> m;
+	for (int i = 0;i < n;i++) {
+		point[i].idx = i;
+		cin >> point[i].x >> point[i].y;
+	}
+	for (int i = 0;i < n;i++) {
+		parant[i] = i;
+	}
+
+	int tmp1, tmp2;
+	for (int i = 0;i < m;i++) {
+		cin >> tmp1 >> tmp2;
+		Union(tmp1-1, tmp2-1);
+	}
+
+
+	for (int i = 0;i < n-1;i++) {
+		for (int j = i+1;j <n;j++) {
+			if( Find(i)!= Find(j) )
+				pq.push(Line(point[i], point[j]));
+		}
+	}
+
+	cnt = n - 1 - m;
+	Line tmp;
+	while (cnt != 0) {
+		tmp = pq.top();
+		pq.pop();
+
+		if (Find(tmp.p1.idx) != Find(tmp.p2.idx)) {
+			Union(Find(tmp.p1.idx), Find(tmp.p2.idx));
+			cnt -= 1;
+
+			ans += tmp.leg;
+		}
+
+	}
+	cout<< fixed;
+	cout.precision(2);
+	
+
+
+	cout << ans;
+
+}
