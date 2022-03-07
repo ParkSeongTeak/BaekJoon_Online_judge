@@ -1,0 +1,103 @@
+#include<iostream>
+#include<algorithm>
+#include<vector>
+#include<queue>
+#define MAX 100000
+using namespace std;
+
+
+
+
+vector<pair<int, int>> xArr;	//	point, idx
+vector<pair<int, int>> yArr;	//	point, idx
+vector<pair<int, int>> zArr;	//	point, idx
+
+class Line {
+public:
+	int p1;
+	int p2;
+	int dist;
+};
+
+bool operator < (const Line& L1, const Line& L2) {
+	return L1.dist < L2.dist;
+}
+
+bool operator > (const Line& L1, const Line& L2) {
+	return L1.dist > L2.dist;
+}
+
+
+vector<Line> vecsort;
+int parant[MAX];
+
+int  Find (int p1){
+	if (parant[p1] == p1)
+		return p1;
+	return parant[p1] = Find(parant[p1]);
+}
+
+void Union(int p1, int p2) {
+	p1 = Find(p1);
+	p2 = Find(p2);
+
+	if (p1 != p2) {
+		if (p1 < p2)
+		{
+			parant[p2] = p1;
+		} 
+		else {
+			parant[p1] = p2;
+		}
+	}
+}
+
+
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+
+	for (int i = 0;i < MAX;i++) {
+		parant[i] = i;
+	}
+
+	int n, x, y, z,idx = 0,cnt = 0;
+	long long ans = 0;
+	cin >> n;
+	for (int i = 0;i < n;i++) {
+		cin >> x >> y >> z;
+		xArr.push_back({ x,i });
+		yArr.push_back({ y,i });
+		zArr.push_back({ z,i });
+
+	}
+	sort(xArr.begin(), xArr.end());
+	sort(yArr.begin(), yArr.end());
+	sort(zArr.begin(), zArr.end());
+	
+	for (int i = 0;i < n - 1 ;i++) {
+		vecsort.push_back(Line({ xArr[i].second,xArr[i + 1].second ,xArr[i + 1].first - xArr[i].first }));
+		vecsort.push_back(Line({ yArr[i].second,yArr[i + 1].second ,yArr[i + 1].first - yArr[i].first }));
+		vecsort.push_back(Line({ zArr[i].second,zArr[i + 1].second ,zArr[i + 1].first - zArr[i].first }));
+
+	}
+	sort(vecsort.begin(), vecsort.end());
+	
+	while (cnt < n - 1 ) {
+		Line tmp = vecsort[idx];
+		idx++;
+		if (Find(tmp.p1) != Find(tmp.p2)) {
+
+			Union(tmp.p1, tmp.p2);
+			cnt++;
+			ans += tmp.dist;
+		}
+	}
+
+	cout << ans;
+	
+
+}
