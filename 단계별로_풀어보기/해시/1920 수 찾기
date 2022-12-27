@@ -1,70 +1,82 @@
-#include<iostream>
+/*
+알고리즘 판단 근거:
 
+1. 배열에서 원소 찾기: 이진 탐색, 해시, B(+) tree, sort 등이 후보
+
+2. 범위, 연속 등이 전혀 중요하지 않은 단일 원소 찾기 == 해시
+(연속성, 범위 등이 중요했다면 B+트리, 이진 탐색을 우선으로 생각해 보았을 것)
+
+매우 기초적인 해싱 단순한 해싱만으로 풀 수 있다고 판단 후 코딩 시작
+
+*/
+#include<iostream>
+#define MAXNUM 100000
+#define HASHINGNUM 500000
+#define PRIMENUM 97
 using namespace std;
 
-const int PN = 23;
-const int Node_Num = 100001;
-const int Hash_Num = 500001;
-
-
-int idx = 0;
-
-int N, inputNum;
 
 struct Node {
 	Node* next;
 	int data;
 };
-Node entries[Hash_Num];
 
-unsigned int gekey(int data) {
-	if (data < 0) data *= -1;
-	data *= PN;
-	return  data % Node_Num;
-}
-
-struct List {			//그럼 stack형으로 저장 되겠구만
+Node hashBucket[MAXNUM];
+static int idx = 0;
+struct HashList {
 	Node* head;
+	
 	void add(int data) {
-		Node* nextIdx = head; 
-		head = &entries[idx++];
-		head -> data = data;
-		head -> next = nextIdx;
+		hashBucket[idx].data = data;
+		hashBucket[idx].next = head;
+		head = &hashBucket[idx];
+		idx++;
+	}
+	
+	bool exist(int data) {
+		Node* next = head;
+		while (next != NULL) {
+			if (next->data == data) {
+				return true;
+			}
+			else {
+				next = next->next;
+			}
+		}
+		return false;
 	}
 };
-List hasha[Hash_Num];
 
+HashList hashList[HASHINGNUM];
+
+int hashFunc(int data) {
+	if (data < 0) data *= -1;
+	return (((data % HASHINGNUM) * PRIMENUM ) + PRIMENUM) % HASHINGNUM;
+}
 
 int main() {
-	
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 	cout.tie(NULL);
+
+	int inputnum,data;
+	cin >> inputnum;
+	for (int i = 0; i < inputnum; i++) {
+		cin >> data;
+		hashList[hashFunc(data)].add(data);
+	}
+
 	
-	///'''''''''''''''''''''''''''''''''''''''''''''''
-	cin >> N;
-
-	for (int i = 0; i < N; i++) {
-		cin >> inputNum;
-		hasha[gekey(inputNum)].add(inputNum);
-	}
-
-	cin >> N;
-	for (int i = 0; i < N; i++) {
-		cin >> inputNum;
-		Node* tmp = hasha[gekey(inputNum)].head;
-		int flag = 0;
-		while (tmp != 0) {
-			if (tmp->data == inputNum) {
-				flag = 1;
-				break;
-			}
-			tmp = tmp->next;
+	cin >> inputnum;
+	for (int i = 0; i < inputnum; i++) {
+		cin >> data;
+		if (hashList[hashFunc(data)].exist(data)) {
+			cout << "1\n";
 		}
-
-		if (flag ==1) cout << "1\n";
-		
-		else cout << "0\n";
-
+		else {
+			cout << "0\n";
+		}
 	}
+	
+
 }
