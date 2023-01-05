@@ -1,0 +1,173 @@
+//기본해시 + DP로 해결 
+//DP사용 안하면 61점 1500자 시간초과
+
+#include<iostream>
+#include<string>
+#define MAXNUM 1500000
+#define HASHINGNUM 5000000
+#define PRIMENUM 97
+#define ALPANUM 26
+using namespace std;
+
+
+struct Alpa {
+	short alpa[ALPANUM];
+	bool operator == (const Alpa& c2)
+	{
+		for (int i = 0; i < ALPANUM; i++) {
+			if (alpa[i] != c2.alpa[i]) {
+				return false;
+			}
+		}
+		return true;
+	}
+	Alpa operator - (const Alpa& c2)
+	{
+
+		Alpa tmp;
+		for (int i = 0; i < ALPANUM; i++) {
+			tmp.alpa[i] = alpa[i] - c2.alpa[i];
+
+			if (tmp.alpa[i] < 0) {
+				cout << "ERROR";
+			}
+		}
+		return tmp;
+	}
+	void operator = (const Alpa& c2)
+	{
+		for (int i = 0; i < ALPANUM; i++) {
+			alpa[i] = c2.alpa[i];
+		}
+	}
+	Alpa() {
+		for (int i = 0; i < ALPANUM; i++) {
+			alpa[i] = 0;
+		}
+	};
+	void Search() {					//디버깅용
+		for (int i = 0; i < ALPANUM; i++) {
+			if (alpa[i] != 0) {
+				cout << (char)(i + 'a') << ":" << alpa[i] << " ";
+			}
+		}
+
+	}
+
+};
+
+template <typename T>
+struct Node {
+	Node* next;
+	T data;
+};
+
+Node<Alpa> hashBucket[MAXNUM];
+static int idx = 0;
+
+template <typename T>
+struct List {
+	Node<T>* head;
+	void add(T data) {
+		hashBucket[idx].data = data;
+		hashBucket[idx].next = head;
+		head = &hashBucket[idx];
+		idx++;
+	}
+	bool exist(T data) {
+		Node<T>* next = head;
+
+		while (next != 0) {
+			if (next->data == data)
+				return true;
+			else {
+				next = next->next;
+			}
+		}
+		return false;
+
+	}
+
+
+};
+
+List<Alpa> hashList[HASHINGNUM];
+
+
+int hashFunc(Alpa data) {
+	int hashNum = 0;
+
+	for (int i = 0; i < ALPANUM; i++) {
+		int pass = data.alpa[i];
+		hashNum += pass * pass * (i * i * i + PRIMENUM);
+		hashNum %= HASHINGNUM;
+	}
+	return hashNum;
+}
+
+Alpa DP1[1501];
+Alpa DP2[1501];
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	string tmp1, tmp2;
+	string First, Second;
+	cin >> tmp1 >> tmp2;
+
+	if (tmp1.size() < tmp2.size()) {
+		First = tmp1;
+		Second = tmp2;
+
+	}
+	else {
+		First = tmp2;
+		Second = tmp1;
+
+	}
+
+	DP1[0].alpa[First[0] - 'a']++;
+	for (int start = 1; start < First.size(); start++) {
+		DP1[start] = DP1[start-1];
+		DP1[start].alpa[First[start] - 'a']++;
+
+	}
+
+	for (int start = 0; start < First.size(); start++) {			//시작부터				
+		hashList[hashFunc(DP1[start])].add(DP1[start]);
+	}
+	for (int start = 0; start < First.size(); start++) {			//중간부터
+		for (int end = start; end < First.size(); end++) {
+			hashList[hashFunc(DP1[end] - DP1[start])].add(DP1[end] - DP1[start]);
+		}
+	}
+
+	int maxNumPP = 0;
+
+	DP2[0].alpa[Second[0] - 'a']++;
+	for (int start = 1; start < Second.size(); start++) {
+		DP2[start] = DP2[start - 1];
+		DP2[start].alpa[Second[start] - 'a']++;
+
+
+	}
+	for (int start = Second.size() - 1; start >= 0; start--) {
+		if (hashList[hashFunc(DP2[start])].exist(DP2[start])) 
+		{
+			maxNumPP = start + 1;
+			break;
+		}
+	}
+	for (int start = 0; start < Second.size(); start++) {					
+		for (int end = start+1; end < Second.size(); end++) {
+			if (maxNumPP < end - start) {
+				if (hashList[hashFunc(DP2[end] - DP2[start])].exist(DP2[end] - DP2[start])) //전체
+				{
+					maxNumPP = end - start;
+				}
+			}
+		}
+	}
+	cout << maxNumPP;
+}
