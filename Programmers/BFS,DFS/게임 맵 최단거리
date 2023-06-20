@@ -1,0 +1,64 @@
+using System;
+using System.Collections.Generic;
+
+class Solution
+{
+    int[,] _map;
+    int[] dy = { 0, 0, 1, -1 };
+    int[] dx = { 1, -1, 0, 0 };
+    
+    int bfs()
+    {
+
+        Queue<Tuple<int, int>> q = new Queue<Tuple<int, int>>();
+        q.Enqueue(new Tuple<int, int>(0,0));
+        //_vis[0,0] = 1;
+        _map[0, 0] = 2;
+        while (q.Count != 0)
+        {
+            Tuple<int, int> now = q.Dequeue();
+            int nextY, nextX;
+
+            for (int i = 0; i < 4; i++)
+            {
+                nextY = now.Item1 + dy[i];
+                nextX = now.Item2 + dx[i];
+                if (nextY >= 0 && _map.GetLength(0) > nextY && nextX >= 0 && _map.GetLength(1) > nextX)
+                {
+                    if (_map[nextY, nextX] == 1 )
+                    {
+                        q.Enqueue(new Tuple<int, int>(nextY, nextX));
+                        _map[nextY, nextX] = _map[now.Item1, now.Item2] + 1;
+                    }
+                }
+            }
+        }
+
+
+        return _map[_map.GetLength(0)-1, _map.GetLength(1)-1] == 1 ? -1 : _map[_map.GetLength(0) - 1, _map.GetLength(1) - 1]-1;
+
+    }
+
+    public int solution(int[,] maps)
+    {
+        
+        _map = maps;
+        
+        return bfs();
+    }
+
+
+
+    static void Main(string[] args)
+    {
+
+        int[,] arr = { { 1, 0, 1, 1, 1 }, { 1, 0, 1, 0, 1 }, { 1, 0, 1, 1, 1 }, { 1, 1, 1, 0, 1 }, { 0, 0, 0, 0, 1 } };
+
+        Solution solution = new Solution();
+        Console.WriteLine(solution.solution(arr));
+    }
+}
+
+
+
+
